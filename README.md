@@ -35,6 +35,6 @@ npm run build
 ```
 
 ## Notes
-All Components were Organised properly as expected in the project
+All Components were Organised properly as expected in the project.
 The app is set up to consume a REST API through Axios. Update the API base URL in the environment or the service layer when your backend is ready.
 A
