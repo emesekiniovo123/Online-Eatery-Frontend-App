@@ -5,6 +5,7 @@ import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { notify } from "../components/ToastProvider";
 import { formatCurrency } from "../utils/formatCurrency";
 
 const Checkout = () => {
@@ -26,11 +27,12 @@ const Checkout = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("Order submitted", {
-      ...data,
-      items: cartItems,
-      total: cartTotal + 4.5,
-    });
+    if (cartItems.length === 0) {
+      notify("Your cart is empty", "error");
+      return;
+    }
+
+    notify("Order placed successfully", "success");
     clearCart();
     setSubmitted(true);
     setTimeout(() => navigate("/orders"), 1200);

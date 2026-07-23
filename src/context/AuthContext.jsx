@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Hydrate user from token on mount
   useEffect(() => {
     const initAuth = async () => {
       const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
@@ -92,6 +91,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = async (profileData) => {
+    const nextUser = { ...(user || {}), ...profileData };
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(nextUser));
+    setUser(nextUser);
+    return nextUser;
+  };
+
   const logout = () => {
     authService.logout();
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
@@ -109,6 +115,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         register,
+        updateProfile,
         logout,
         isAuthenticated,
         isAdmin,

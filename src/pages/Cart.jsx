@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import CartItem from "../components/CartItem";
 import { formatCurrency } from "../utils/formatCurrency";
 
 const Cart = () => {
@@ -38,43 +39,12 @@ const Cart = () => {
           </div>
         </div>
         {cartItems.map((item) => (
-          <div
+          <CartItem
             key={item._id}
-            className="flex flex-col gap-4 rounded-[1.25rem] border border-dark-200 p-4 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div>
-              <p className="font-semibold text-dark-900">{item.name}</p>
-              <p className="text-sm text-dark-500">
-                {formatCurrency(item.price)}
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => updateQuantity(item._id, item.quantity - 1)}
-                className="rounded-full border border-dark-200 px-3 py-1 text-sm"
-              >
-                −
-              </button>
-              <span className="min-w-8 text-center font-semibold">
-                {item.quantity}
-              </span>
-              <button
-                type="button"
-                onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                className="rounded-full border border-dark-200 px-3 py-1 text-sm"
-              >
-                +
-              </button>
-              <button
-                type="button"
-                onClick={() => removeFromCart(item._id)}
-                className="ml-2 text-sm font-semibold text-danger-500"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
+            item={item}
+            onUpdateQuantity={updateQuantity}
+            onRemove={removeFromCart}
+          />
         ))}
       </div>
 

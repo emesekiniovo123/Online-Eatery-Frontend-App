@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { mockUsers } from "../utils/mockData";
+import { notify } from "../components/ToastProvider";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,10 +38,13 @@ const Login = () => {
         password: data.password,
         user: match,
       });
+      notify("Signed in successfully", "success");
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.message || "Unable to sign in");
+      const message = err.message || "Unable to sign in";
+      setError(message);
+      notify(message, "error");
     } finally {
       setLoading(false);
     }

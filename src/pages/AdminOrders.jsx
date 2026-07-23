@@ -1,7 +1,18 @@
+import { useState } from "react";
 import { mockOrders } from "../utils/mockData";
 import { formatCurrency } from "../utils/formatCurrency";
 
 const AdminOrders = () => {
+  const [orders, setOrders] = useState(mockOrders);
+
+  const handleStatusChange = (orderId) => {
+    setOrders((current) =>
+      current.map((order) =>
+        order._id === orderId ? { ...order, status: "ready" } : order,
+      ),
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-6 shadow-card">
@@ -13,7 +24,7 @@ const AdminOrders = () => {
         </h1>
       </div>
       <div className="space-y-4">
-        {mockOrders.map((order) => (
+        {orders.map((order) => (
           <div
             key={order._id}
             className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card"
@@ -33,6 +44,7 @@ const AdminOrders = () => {
               <span>{formatCurrency(order.total)}</span>
               <button
                 type="button"
+                onClick={() => handleStatusChange(order._id)}
                 className="rounded-full border border-dark-200 px-4 py-2 font-semibold text-dark-700"
               >
                 Update status

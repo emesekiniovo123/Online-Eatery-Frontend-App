@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { mockOrders } from "../utils/mockData";
+import { mockOrders, mockMeals } from "../utils/mockData";
 
 const AdminDashboard = () => {
+  const revenue = mockMeals.reduce((sum, meal) => sum + meal.price, 0);
+
   return (
     <div className="space-y-6">
       <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-6 shadow-card">
@@ -13,8 +15,8 @@ const AdminDashboard = () => {
       <div className="grid gap-4 md:grid-cols-3">
         {[
           ["Orders", mockOrders.length],
-          ["Menu items", 6],
-          ["Revenue", "$1,240"],
+          ["Menu items", mockMeals.length],
+          ["Revenue", `$${revenue.toFixed(2)}`],
         ].map(([label, value]) => (
           <div
             key={label}

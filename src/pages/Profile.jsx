@@ -1,7 +1,37 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import Button from "../components/Button";
+import Input from "../components/Input";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: user?.name || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      address: user?.address || "",
+    },
+  });
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    setMessage("");
+    try {
+      await updateProfile(data);
+      setMessage("Profile updated successfully.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-8 shadow-card">
@@ -9,22 +39,51 @@ const Profile = () => {
         Profile
       </p>
       <h1 className="mt-2 text-2xl font-semibold text-dark-900">
-        Your account details
+        Update your account details
       </h1>
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        <div className="rounded-[1.25rem] border border-dark-200 bg-cream p-4">
-          <p className="text-sm text-dark-500">Name</p>
-          <p className="mt-1 font-semibold text-dark-900">
-            {user?.name || "Demo Customer"}
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
+        {message && (
+          <p className="rounded-2xl bg-sage-50 p-3 text-sm text-sage-700">
+            {message}
           </p>
-        </div>
-        <div className="rounded-[1.25rem] border border-dark-200 bg-cream p-4">
-          <p className="text-sm text-dark-500">Email</p>
-          <p className="mt-1 font-semibold text-dark-900">
-            {user?.email || "customer@eatery.com"}
-          </p>
-        </div>
-      </div>
+        )}
+        <Input
+          label="Full name"
+          name="name"
+          register={register}
+          error={errors.name}
+          required
+          {...register("name", { required: "Name is required" })}
+        />
+        <Input
+          label="Email"
+          name="email"
+          type="email"
+          register={register}
+          error={errors.email}
+          required
+          {...register("email", { required: "Email is required" })}
+        />
+        <Input
+          label="Phone"
+          name="phone"
+          placeholder="+1 555 0123"
+          register={register}
+          error={errors.phone}
+          {...register("phone")}
+        />
+        <Input
+          label="Address"
+          name="address"
+          placeholder="123 Market Street"
+          register={register}
+          error={errors.address}
+          {...register("address")}
+        />
+        <Button type="submit" loading={loading}>
+          Save changes
+        </Button>
+      </form>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { notify } from "../components/ToastProvider";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -27,9 +28,12 @@ const Register = () => {
         email: data.email,
         password: data.password,
       });
+      notify("Account created successfully", "success");
       navigate("/");
     } catch (err) {
-      setError(err.message || "Unable to create account");
+      const message = err.message || "Unable to create account";
+      setError(message);
+      notify(message, "error");
     } finally {
       setLoading(false);
     }
