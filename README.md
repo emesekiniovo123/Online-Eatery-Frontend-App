@@ -15,6 +15,114 @@ The project is built with React Router for navigation, Context API for shared st
 - Shared auth and cart state using Context API
 - Demo-friendly authentication flow ready for backend integration
 
+## Frontend Folder Structure
+eatery-client/
+│
+├── public/
+│   ├── favicon.svg
+│   └── icons.svg
+
+│
+├── src/
+│   │
+│   ├── assets/
+│   │   ├── images/
+│   │   ├── icons/
+│   │   └── fonts/
+│   │
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Button.jsx
+│   │   │   ├── Input.jsx
+│   │   │   ├── Modal.jsx
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   └── Toast.jsx
+│   │   │
+│   │   ├── layout/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   └── CategoryFilter.jsx
+│   │   │
+│   │   ├── meals/
+│   │   │   ├── MealCard.jsx
+│   │   │   └── SearchBar.jsx
+│   │   │
+│   │   ├── cart/
+│   │   │   └── CartItem.jsx
+│   │   │
+│   │   └── orders/
+│   │       └── OrderCard.jsx
+│   │
+│   ├── context/
+│   │   ├── AuthContext.jsx
+│   │   └── CartContext.jsx
+│   │
+│   ├── hooks/
+│   │   ├── useAuth.js
+│   │   ├── useCart.js
+│   │   └── useScrollToTop.js
+│   │
+│   ├── layouts/
+│   │   ├── PublicLayout.jsx
+│   │   └── AdminLayout.jsx
+│   │
+│   ├── pages/
+│   │   ├── auth/
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   └── Profile.jsx
+│   │   │
+│   │   ├── customer/
+│   │   │   ├── Home.jsx
+│   │   │   ├── Menu.jsx
+│   │   │   ├── MealDetails.jsx
+│   │   │   ├── Cart.jsx
+│   │   │   ├── Checkout.jsx
+│   │   │   ├── Orders.jsx
+│   │   │   ├── About.jsx
+│   │   │   └── Contact.jsx
+│   │   │
+│   │   ├── admin/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── MenuManagement.jsx
+│   │   │   ├── OrdersManagement.jsx
+│   │   │   └── UsersManagement.jsx
+│   │   │
+│   │   └── NotFound.jsx
+│   │
+│   ├── routes/
+│   │   ├── AppRoutes.jsx
+│   │   ├── ProtectedRoute.jsx
+│   │   └── AdminRoute.jsx
+│   │
+│   ├── services/
+│   │   ├── api.js
+│   │   ├── authService.js
+│   │   ├── menuService.js
+│   │   ├── orderService.js
+│   │   ├── userService.js
+│   │   └── cartService.js
+│   │
+│   ├── utils/
+│   │   ├── constants.js
+│   │   ├── helpers.js
+│   │   ├── validators.js
+│   │   └── formatters.js
+│   │
+│   ├── styles/
+│   │   ├── globals.css
+│   │   ├── variables.css
+│   │   └── animations.css
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── .env
+├── package.json
+├── vite.config.js
+└── README.md
+
 ## Tech stack
 
 - React
