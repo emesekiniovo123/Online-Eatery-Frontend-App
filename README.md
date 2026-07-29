@@ -1,4 +1,4 @@
-# Online Eatery Frontend
+# Online Eatery 
 
 ## Project Overview
 
