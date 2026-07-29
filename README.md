@@ -21,7 +21,6 @@ eatery-client/
 ├── public/
 │   ├── favicon.svg
 │   └── icons.svg
-
 │
 ├── src/
 │   │
