@@ -24,10 +24,11 @@ const Register = () => {
 
     try {
       await registerUser({
-        name: data.name,
+        fullName: data.name,
         email: data.email,
         password: data.password,
       });
+
       notify("Account created successfully", "success");
       navigate("/");
     } catch (err) {
@@ -43,10 +44,10 @@ const Register = () => {
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 rounded-[2rem] border border-dark-200 bg-white/80 p-8 shadow-card">
       <div className="space-y-2 text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
-          Join us
+          Join us now
         </p>
         <h1 className="text-3xl font-semibold text-dark-900">
-          Create your account
+          Create your account here
         </h1>
       </div>
 
@@ -92,7 +93,7 @@ const Register = () => {
           })}
         />
         <Button type="submit" fullWidth loading={loading}>
-          Create account
+          Create account 
         </Button>
       </form>
 

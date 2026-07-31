@@ -228,10 +228,10 @@ https://docs.google.com/document/d/1OFut8FQIC-LOkHr2UmOWyV-38QWHGwtR/edit?usp=dr
 
 
 ## VITE_API_URL
-https://online-eatery-server.onrender.com/api
+https://online-eatery-server.onrender.com
 
 
-## Client URL
+## Client/Frontend Deployment URL
 https://online-eatery.vercel.app
 
 

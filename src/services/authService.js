@@ -3,7 +3,7 @@ import api from './api';
 const authService = {
   // Register a new user
   register: async (userData) => {
-    const response = await api.post('/auth/register', userData);
+    const response = await api.post('/auth/signup', userData);
     return response.data;
   },
 
@@ -15,7 +15,7 @@ const authService = {
 
   // Get current user profile
   getMe: async () => {
-    const response = await api.get('/auth/me');
+    const response = await api.get('/auth/profile');
     return response.data;
   },
 
