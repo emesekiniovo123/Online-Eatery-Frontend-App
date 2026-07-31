@@ -222,9 +222,16 @@ The app is set up to consume a REST API through Axios. Update the API base URL i
 ## Submission URL link
 https://forms.gle/vXp86Ej9g9BNkpDv6
 
-## VTE_API_URL
+
+## Google Drive's Technical Report link
+https://docs.google.com/document/d/1OFut8FQIC-LOkHr2UmOWyV-38QWHGwtR/edit?usp=drive_link&ouid=117396188969799779151&rtpof=true&sd=true
+
+
+## VITE_API_URL
 https://online-eatery-server.onrender.com/api
 
 
 ## Client URL
 https://online-eatery.vercel.app
+
+
