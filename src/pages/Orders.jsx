@@ -1,7 +1,40 @@
-import { mockOrders } from "../utils/mockData";
+import { useEffect, useState } from "react";
 import OrderCard from "../components/OrderCard";
+import orderService from "../services/orderService";
+
+const ORDER_STORAGE_KEY = "eatery_orders";
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const loadOrders = async () => {
+      try {
+        const response = await orderService.getMyOrders();
+        const apiOrders = Array.isArray(response)
+          ? response
+          : response?.orders || [];
+        if (apiOrders.length > 0) {
+          setOrders(apiOrders);
+          return;
+        }
+      } catch {
+        // Fall back to browser storage when the backend is unavailable.
+      }
+
+      try {
+        const storedOrders = JSON.parse(
+          localStorage.getItem(ORDER_STORAGE_KEY) || "[]",
+        );
+        setOrders(storedOrders);
+      } catch {
+        setOrders([]);
+      }
+    };
+
+    loadOrders();
+  }, []);
+
   return (
     <div className="space-y-6">
       <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-6 shadow-card">
@@ -12,11 +45,19 @@ const Orders = () => {
           Order history
         </h1>
       </div>
-      <div className="space-y-4">
-        {mockOrders.map((order) => (
-          <OrderCard key={order._id} order={order} />
-        ))}
-      </div>
+
+      {orders.length === 0 ? (
+        <div className="rounded-[2rem] border border-dashed border-dark-200 bg-white/70 p-6 text-sm text-dark-600">
+          No orders yet. Place an order from the checkout page to see the
+          payment, delivery, and order details here.
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <OrderCard key={order._id} order={order} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,14 +1,85 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { mockMeals } from "../utils/mockData";
+import menuService from "../services/menuService";
 import { formatCurrency } from "../utils/formatCurrency";
+
+const resolveImageUrl = (image) => {
+  if (!image) {
+    return "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80";
+  }
+
+  if (/^https?:\/\//i.test(image)) {
+    return image;
+  }
+
+  const apiBase = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+  if (image.startsWith("/")) {
+    return `${apiBase}${image}`;
+  }
+
+  return image;
+};
+
+const normalizeMeal = (meal) => ({
+  _id: meal?._id || meal?.id || meal?.mealId,
+  name: meal?.name || "Untitled meal",
+  description: meal?.description || meal?.details || "No description provided.",
+  price: Number(meal?.price ?? meal?.amount ?? 0),
+  category: meal?.category || meal?.mealType || "General",
+  image: resolveImageUrl(meal?.image || meal?.img || meal?.photo),
+});
 
 const MealDetails = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
+  const [meal, setMeal] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const meal = useMemo(() => mockMeals.find((item) => item._id === id), [id]);
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadMeal = async () => {
+      try {
+        const response = await menuService.getMealById(id);
+        if (!isMounted) {
+          return;
+        }
+
+        const mealPayload =
+          response?.data?.food ??
+          response?.food ??
+          response?.data?.meal ??
+          response?.meal ??
+          response;
+        setMeal(normalizeMeal(mealPayload));
+      } catch {
+        if (isMounted) {
+          setMeal(null);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadMeal();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-8 text-center shadow-card">
+        <h1 className="text-2xl font-semibold text-dark-900">
+          Loading meal details...
+        </h1>
+      </div>
+    );
+  }
 
   if (!meal) {
     return (

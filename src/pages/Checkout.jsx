@@ -7,6 +7,27 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { notify } from "../components/ToastProvider";
 import { formatCurrency } from "../utils/formatCurrency";
+import orderService from "../services/orderService";
+
+const ORDER_STORAGE_KEY = "eatery_orders";
+const DELIVERY_FEE = 4.5;
+const PAYMENT_METHODS = [
+  {
+    value: "Cash on Delivery",
+    title: "Cash on Delivery",
+    description: "Pay in cash when your order arrives.",
+  },
+  {
+    value: "Card",
+    title: "Card",
+    description: "Use your debit or credit card for fast checkout.",
+  },
+  {
+    value: "Bank Transfer",
+    title: "Bank Transfer",
+    description: "Transfer directly to the restaurant account.",
+  },
+];
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -17,19 +38,70 @@ const Checkout = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
+      email: user?.email || "",
       address: user?.address || "",
       phone: user?.phone || "",
+      paymentMethod: "Cash on Delivery",
+      paymentStatus: "pending",
+      cardName: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvv: "",
+      bankName: "",
+      accountName: "",
+      reference: "",
       note: "",
     },
   });
 
-  const onSubmit = (data) => {
+  const selectedPaymentMethod = watch("paymentMethod");
+
+  const onSubmit = async (data) => {
     if (cartItems.length === 0) {
       notify("Your cart is empty", "error");
       return;
+    }
+
+    const order = {
+      _id: `order-${Date.now()}`,
+      customerName: user?.name || "Guest Customer",
+      email: data.email || user?.email || "",
+      address: data.address,
+      phone: data.phone,
+      paymentMethod: data.paymentMethod || "Cash on Delivery",
+      paymentStatus: data.paymentStatus || "pending",
+      status: data.paymentStatus === "paid" ? "confirmed" : "pending",
+      note: data.note || "",
+      total: cartTotal + DELIVERY_FEE,
+      createdAt: new Date().toISOString(),
+      items: cartItems.map((item) => ({
+        _id: item._id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+    };
+
+    try {
+      const storedOrders = JSON.parse(
+        localStorage.getItem(ORDER_STORAGE_KEY) || "[]",
+      );
+      localStorage.setItem(
+        ORDER_STORAGE_KEY,
+        JSON.stringify([order, ...storedOrders]),
+      );
+    } catch {
+      localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify([order]));
+    }
+
+    try {
+      await orderService.createOrder(order);
+    } catch {
+      // Keep the frontend order flow working even when the API is unavailable.
     }
 
     notify("Order placed successfully", "success");
@@ -49,6 +121,16 @@ const Checkout = () => {
         </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
           <Input
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="customer@email.com"
+            register={register}
+            error={errors.email}
+            required
+            {...register("email", { required: "Email is required" })}
+          />
+          <Input
             label="Delivery address"
             name="address"
             placeholder="123 Market Street"
@@ -66,6 +148,144 @@ const Checkout = () => {
             required
             {...register("phone", { required: "Phone is required" })}
           />
+
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-dark-700">Payment method</p>
+            <div className="grid gap-3 md:grid-cols-3">
+              {PAYMENT_METHODS.map((method) => {
+                const isSelected = selectedPaymentMethod === method.value;
+
+                return (
+                  <label
+                    key={method.value}
+                    className={`cursor-pointer rounded-2xl border p-4 transition-all ${
+                      isSelected
+                        ? "border-primary-400 bg-primary-50 shadow-sm"
+                        : "border-dark-200 bg-white/80"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      value={method.value}
+                      className="sr-only"
+                      {...register("paymentMethod")}
+                    />
+                    <p className="font-semibold text-dark-900">
+                      {method.title}
+                    </p>
+                    <p className="mt-1 text-xs text-dark-500">
+                      {method.description}
+                    </p>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          {selectedPaymentMethod === "Card" && (
+            <div className="grid gap-4 rounded-2xl border border-dark-200 bg-dark-50 p-4 sm:grid-cols-2">
+              <Input
+                label="Cardholder name"
+                name="cardName"
+                placeholder="John Doe"
+                register={register}
+                error={errors.cardName}
+                required
+                {...register("cardName", {
+                  required: "Cardholder name is required",
+                })}
+              />
+              <Input
+                label="Card number"
+                name="cardNumber"
+                placeholder="4242 4242 4242 4242"
+                register={register}
+                error={errors.cardNumber}
+                required
+                {...register("cardNumber", {
+                  required: "Card number is required",
+                })}
+              />
+              <Input
+                label="Expiry date"
+                name="expiryDate"
+                placeholder="MM/YY"
+                register={register}
+                error={errors.expiryDate}
+                required
+                {...register("expiryDate", {
+                  required: "Expiry date is required",
+                })}
+              />
+              <Input
+                label="CVV"
+                name="cvv"
+                placeholder="123"
+                register={register}
+                error={errors.cvv}
+                required
+                {...register("cvv", { required: "CVV is required" })}
+              />
+            </div>
+          )}
+
+          {selectedPaymentMethod === "Bank Transfer" && (
+            <div className="grid gap-4 rounded-2xl border border-dark-200 bg-dark-50 p-4 sm:grid-cols-2">
+              <Input
+                label="Bank name"
+                name="bankName"
+                placeholder="First Bank"
+                register={register}
+                error={errors.bankName}
+                required
+                {...register("bankName", { required: "Bank name is required" })}
+              />
+              <Input
+                label="Account name"
+                name="accountName"
+                placeholder="Online Eatery"
+                register={register}
+                error={errors.accountName}
+                required
+                {...register("accountName", {
+                  required: "Account name is required",
+                })}
+              />
+              <div className="sm:col-span-2">
+                <Input
+                  label="Reference"
+                  name="reference"
+                  placeholder="Transfer reference or transaction ID"
+                  register={register}
+                  error={errors.reference}
+                  required
+                  {...register("reference", {
+                    required: "Reference is required",
+                  })}
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="paymentStatus"
+                className="text-sm font-medium text-dark-700"
+              >
+                Payment status
+              </label>
+              <select
+                id="paymentStatus"
+                className="w-full rounded-xl border border-dark-200 bg-white/80 px-4 py-3 text-sm"
+                {...register("paymentStatus")}
+              >
+                <option value="pending">Pending</option>
+                <option value="paid">Paid</option>
+              </select>
+            </div>
+          </div>
+
           <Input
             label="Note"
             name="note"
@@ -94,8 +314,12 @@ const Checkout = () => {
             </div>
           ))}
           <div className="flex items-center justify-between border-t border-white/10 pt-4 text-base font-semibold">
+            <span>Delivery</span>
+            <span>{formatCurrency(DELIVERY_FEE)}</span>
+          </div>
+          <div className="flex items-center justify-between border-t border-white/10 pt-4 text-base font-semibold">
             <span>Total</span>
-            <span>{formatCurrency(cartTotal + 4.5)}</span>
+            <span>{formatCurrency(cartTotal + DELIVERY_FEE)}</span>
           </div>
         </div>
       </div>
