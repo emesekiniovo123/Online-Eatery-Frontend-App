@@ -1,3 +1,5 @@
+//Navigate is used to redirect the user to another route.
+//Outlet: Render the protected page here if the user passes the security check.
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -9,6 +11,8 @@ const AdminRoute = () => {
   }
 
   if (!isAdmin) {
+    //"replace prevents the unauthorized route from 
+    // remaining as a separate entry in the browser history."
     return <Navigate to="/" replace />;
   }
 

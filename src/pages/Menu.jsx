@@ -1,10 +1,20 @@
+//useState → stores data that can change while the page is running.
+//useEffect → performs side effects, such as fetching meals from the backend.
+//useMemo → optimizes calculations by remembering a previous result until its dependencies change.
 import { useEffect, useMemo, useState } from "react";
+//when the user clicks Add to Cart,
+//  this component can add the selected meal to the global cart.
 import { useCart } from "../context/CartContext";
+//This imports the service responsible for communicating with the backend menu API.
 import menuService from "../services/menuService";
+//MealCard → displays an individual meal.
 import MealCard from "../components/MealCard";
+//SearchBar → allows the user to search.
 import SearchBar from "../components/SearchBar";
+//CategoryFilter → allows the user to select a category;
 import CategoryFilter from "../components/CategoryFilter";
 
+//This defines a function that generates a unique identifier for a meal.
 const buildMealId = (meal) => {
   return (
     meal?._id ??
@@ -24,6 +34,7 @@ const resolveImageUrl = (image) => {
     return image;
   }
 
+  //This retrieves the backend URL from the Vite environment variable:
   const apiBase = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
   if (image.startsWith("/")) {
     return `${apiBase}${image}`;
@@ -32,9 +43,13 @@ const resolveImageUrl = (image) => {
   return image;
 };
 
+//Its purpose is to convert different backend meal formats
+//into one consistent frontend format
 const normalizeMeal = (meal) => ({
   _id: buildMealId(meal),
+  //Use meal name if it exist or Untitled meal
   name: meal?.name || "Untitled meal",
+
   description: meal?.description || meal?.details || "No description provided.",
   price: Number(meal?.price ?? meal?.amount ?? 0),
   category: meal?.category || meal?.mealType || "General",
@@ -43,10 +58,16 @@ const normalizeMeal = (meal) => ({
   available: Boolean(meal?.available ?? true),
 });
 
+//This function extracts meal data from the backend response.
 const extractMeals = (payload) => {
+  //The application supports multiple possible API response structures.
   const foodsSource =
-    payload?.data?.foods ?? payload?.foods ?? payload?.data ?? payload;
+    payload?.data?.foods ?? 
+    payload?.foods ?? 
+    payload?.data ??
+     payload;
 
+     //Checks whether the extracted data is actually an array.
   if (Array.isArray(foodsSource)) {
     return foodsSource.map(normalizeMeal);
   }
@@ -54,10 +75,10 @@ const extractMeals = (payload) => {
   if (Array.isArray(payload?.meals)) {
     return payload.meals.map(normalizeMeal);
   }
-
+//If nothing valid is found, an empty array is returned.
   return [];
 };
-
+//This function gets all available meal categories.
 const extractCategories = (meals) => {
   return [
     "All",
@@ -65,19 +86,30 @@ const extractCategories = (meals) => {
   ];
 };
 
+
+//This component is responsible for:
+
+//loading meals
+//displaying meals
+//searching meals
+//filtering meals
+//adding meals to the cart
 const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [query, setQuery] = useState("");
+  //Stores all meals received from the backend.
   const [meals, setMeals] = useState([]);
   const [categories, setCategories] = useState(["All"]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
   useEffect(() => {
+    //This variable tracks whether the component is still mounted.
     let isMounted = true;
 
     const loadMenu = async () => {
       try {
+        //This is where the application requests the meals from the backend.
         const response = await menuService.getMeals();
 
         if (!isMounted) {
@@ -85,15 +117,19 @@ const Menu = () => {
         }
 
         const normalizedMeals = extractMeals(response);
+        //Stores the meals in React state.
         setMeals(normalizedMeals);
+        //setCategories(extractCategories(normalizedMeals));
         setCategories(extractCategories(normalizedMeals));
       } catch {
         if (isMounted) {
+          //The application resets the meals and categories instead of crashing.
           setMeals([]);
           setCategories(["All"]);
         }
       } finally {
         if (isMounted) {
+          //The loading state is turned off.
           setLoading(false);
         }
       }
@@ -105,11 +141,12 @@ const Menu = () => {
       isMounted = false;
     };
   }, []);
-
+//This calculates the meals that should actually be displayed.
   const filteredMeals = useMemo(() => {
     return meals.filter((meal) => {
       const matchesCategory =
         selectedCategory === "All" || meal.category === selectedCategory;
+        //Converts the search text to lowercase.
       const lowerQuery = query.toLowerCase();
       const matchesQuery =
         !query ||

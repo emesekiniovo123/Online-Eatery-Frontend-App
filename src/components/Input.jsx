@@ -1,3 +1,15 @@
+// Reusable Input component.
+//
+// Props:
+// label - text displayed above the input.
+// name - unique name of the input.
+// type - input type (text, email, password, etc.).
+// placeholder - placeholder text.
+// register - React Hook Form registration function.
+// error - validation error object.
+// required - whether the field is required.
+// disabled - whether the input is disabled.
+// className - additional CSS classes.
 const Input = ({
   label,
   name,

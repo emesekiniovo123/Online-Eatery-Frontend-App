@@ -1,9 +1,14 @@
+//import react hooks from react
 import { createContext, useContext, useState, useEffect } from "react";
+// Import authentication service for API requests
 import authService from "../services/authService";
+// Import localStorage key constants.
 import { STORAGE_KEYS } from "../utils/constants";
-
+// Create Authentication Context.
 const AuthContext = createContext(null);
 
+
+//Custom Hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
 
@@ -15,10 +20,17 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+
+  // User State :Stores the currently logged-in user
   const [user, setUser] = useState(null);
+
+  //Loading State : Tracks whether authentication is still being checked
   const [loading, setLoading] = useState(true);
 
+  //useEffect() : Runs once when the application starts.
   useEffect(() => {
+
+    //Initializes authentication when the application loads
     const initAuth = async () => {
       const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
 

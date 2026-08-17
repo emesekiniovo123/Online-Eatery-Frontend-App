@@ -1,10 +1,25 @@
+//useState: Used to store the orders
+//useEffect: Used to perform an operation when the component loads
 import { useEffect, useState } from "react";
+//OrderCard is a reusable component responsible for displaying one individual order.
 import OrderCard from "../components/OrderCard";
+//This imports the service responsible for communicating with the backend order API.
 import orderService from "../services/orderService";
 
 const ORDER_STORAGE_KEY = "eatery_orders";
 
+//This defines the main React component for the order history page.
+
+//Its responsibilities are:
+
+//Load orders.
+//Store orders in state.
+//Display an empty state if there are no orders.
+//Display each order using OrderCard.
 const Orders = () => {
+
+//  orders: Contains the current list of orders.
+//setOrders: Used to update the order list
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {

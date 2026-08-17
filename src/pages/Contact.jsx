@@ -17,15 +17,15 @@ const Contact = () => {
         <div className="space-y-4">
           <div>
             <p className="text-sm text-dark-400">Email</p>
-            <p className="font-medium">hello@onlineeatery.com</p>
+            <p className="font-medium">ng@onlineeatery.com</p>
           </div>
           <div>
             <p className="text-sm text-dark-400">Phone</p>
-            <p className="font-medium">+1 (800) 555-0148</p>
+            <p className="font-medium">+234 7012555687</p>
           </div>
           <div>
             <p className="text-sm text-dark-400">Address</p>
-            <p className="font-medium">28 Market Street, Downtown</p>
+            <p className="font-medium">No. 3 Masaka, Karu LGA, Nasarawa State. </p>
           </div>
         </div>
       </div>

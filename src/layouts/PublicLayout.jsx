@@ -1,6 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+
+//I use the useScrollToTop custom hook to ensure that when the user navigates 
+// between public pages,the new page starts from the top rather than
+//  retaining the previous page's scroll position
 import useScrollToTop from '../hooks/useScrollToTop';
 
 const PublicLayout = () => {

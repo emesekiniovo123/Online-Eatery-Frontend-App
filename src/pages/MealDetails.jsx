@@ -20,13 +20,15 @@ const resolveImageUrl = (image) => {
 
   return image;
 };
-
+//Normalizing the meal id from the backend 
+// The ?? operator means use only meal id that is not null or undefined
 const normalizeMeal = (meal) => ({
   _id: meal?._id || meal?.id || meal?.mealId,
   name: meal?.name || "Untitled meal",
   description: meal?.description || meal?.details || "No description provided.",
   price: Number(meal?.price ?? meal?.amount ?? 0),
   category: meal?.category || meal?.mealType || "General",
+  //Your application looks for the image in three possible properties:
   image: resolveImageUrl(meal?.image || meal?.img || meal?.photo),
 });
 
@@ -41,6 +43,8 @@ const MealDetails = () => {
 
     const loadMeal = async () => {
       try {
+
+      //This is the line that connects this component to your backend/API service.
         const response = await menuService.getMealById(id);
         if (!isMounted) {
           return;

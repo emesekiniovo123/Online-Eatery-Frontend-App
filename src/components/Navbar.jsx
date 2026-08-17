@@ -1,3 +1,5 @@
+//Link enables client-side navigation without reloading the page
+//NavLink additionally highlights the currently active page.
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -11,6 +13,12 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+
+  //This retrieves authentication information from the AuthContext
+//   It provides:
+// isAuthenticated → checks login status.
+// user → current user's information.
+// logout() → logs the user out.
   const { isAuthenticated, logout, user } = useAuth();
   const { cartCount } = useCart();
 

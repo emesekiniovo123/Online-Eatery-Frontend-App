@@ -1,3 +1,9 @@
+//The props are:
+// open → Controls whether the modal is visible.
+// title → Displays the modal heading.
+// children → Holds any content passed into the modal.
+// onClose → Function that closes the modal
+
 const Modal = ({ open, title, children, onClose }) => {
   if (!open) return null;
 

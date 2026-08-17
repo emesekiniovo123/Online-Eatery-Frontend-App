@@ -1,6 +1,8 @@
+// Link allows navigation between pages without reloading the website
 import { Link } from "react-router-dom";
 import { APP_NAME } from "../utils/constants";
 
+// Create the Footer component.
 const Footer = () => {
   return (
     <footer className="border-t border-dark-200/70 bg-white/70 py-10">

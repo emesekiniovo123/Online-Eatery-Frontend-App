@@ -1,9 +1,19 @@
+//Link allows the user to navigate between pages 
+// without reloading the entire React application.
 import { Link } from "react-router-dom";
+//useCart() is a custom React hook that gets
+//  cart-related data and functions from the CartContext.
 import { useCart } from "../context/CartContext";
+
+//This imports a reusable component 
+// responsible for displaying one individual cart item.
 import CartItem from "../components/CartItem";
 import { formatCurrency } from "../utils/formatCurrency";
 
 const Cart = () => {
+
+  //The Cart component uses a custom useCart hook to access the global cart state
+  //  and the functions required to update, remove, and calculate cart items.
   const { cartItems, updateQuantity, removeFromCart, cartTotal } = useCart();
 
   if (cartItems.length === 0) {

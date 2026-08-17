@@ -1,3 +1,8 @@
+//Purpose of api.js are :
+//Send HTTP requests from the frontend to the backend.
+//Automatically attach the user's JWT token and handle unauthorized responses.
+
+//Axios is a JavaScript library used to make HTTP requests.
 import axios from 'axios';
 import { STORAGE_KEYS } from '../utils/constants';
 
@@ -12,12 +17,19 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-// Request interceptor — attach JWT token
+// An Axios request interceptor runs before an HTTP request is sent.
+// Frontend wants to make API request
+//              ↓
+//       Request interceptor
+//              ↓
+//        Add JWT token
+//              ↓
+//         Send request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
     if (token) {
+      //It creates an HTTP header like:Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -25,14 +37,22 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor — handle 401 (auto-logout)
+//A response interceptor runs after the backend responds:
+// Backend
+//    ↓
+// Response
+//    ↓
+// Response interceptor
+//    ↓
+// Frontend
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem(STORAGE_KEYS.TOKEN);
       localStorage.removeItem(STORAGE_KEYS.USER);
-      // Only redirect if not already on login page
+      //The purpose is to prevent unnecessary redirection 
+      // if the user is already on the login page
       if (window.location.pathname !== '/login') {
         window.location.href = '/login';
       }

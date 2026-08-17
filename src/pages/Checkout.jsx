@@ -1,5 +1,12 @@
+//useState: Used to manage local state
 import { useState } from "react";
+//This allows the application to programmatically move the user to another page.
 import { useNavigate } from "react-router-dom";
+//useForm: It makes handling forms easier, including:
+// collecting input values
+// validating inputs
+// detecting errors
+// submitting the form
 import { useForm } from "react-hook-form";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -33,6 +40,8 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { cartItems, cartTotal, clearCart } = useCart();
   const { user } = useAuth();
+
+  //It keeps track of whether the order has been successfully submitted
   const [submitted, setSubmitted] = useState(false);
 
   const {
@@ -58,8 +67,9 @@ const Checkout = () => {
     },
   });
 
+  //watch(): It allows your component to know which payment method the customer has selected.
   const selectedPaymentMethod = watch("paymentMethod");
-
+//It runs when the customer submits the checkout form
   const onSubmit = async (data) => {
     if (cartItems.length === 0) {
       notify("Your cart is empty", "error");
@@ -74,6 +84,7 @@ const Checkout = () => {
       phone: data.phone,
       paymentMethod: data.paymentMethod || "Cash on Delivery",
       paymentStatus: data.paymentStatus || "pending",
+      //This uses a ternary operator.
       status: data.paymentStatus === "paid" ? "confirmed" : "pending",
       note: data.note || "",
       total: cartTotal + DELIVERY_FEE,
@@ -99,6 +110,7 @@ const Checkout = () => {
     }
 
     try {
+      //This sends the order to your backend through your orderService.
       await orderService.createOrder(order);
     } catch {
       // Keep the frontend order flow working even when the API is unavailable.
@@ -106,7 +118,10 @@ const Checkout = () => {
 
     notify("Order placed successfully", "success");
     clearCart();
+    //This causes the success message in the UI to appear
     setSubmitted(true);
+    //After 1.2 seconds, the customer is taken to their orders page.
+    //After successfully placing an order, the customer is taken to the /orders page.
     setTimeout(() => navigate("/orders"), 1200);
   };
 
@@ -133,7 +148,7 @@ const Checkout = () => {
           <Input
             label="Delivery address"
             name="address"
-            placeholder="123 Market Street"
+            placeholder="No. 8, Masaka, Nasarawa State."
             register={register}
             error={errors.address}
             required
@@ -142,7 +157,7 @@ const Checkout = () => {
           <Input
             label="Phone number"
             name="phone"
-            placeholder="+1 555 0123"
+            placeholder="+234 70 555 01123"
             register={register}
             error={errors.phone}
             required

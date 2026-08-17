@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { mockOrders, mockMeals } from "../utils/mockData";
 
 const AdminDashboard = () => {
+
+  //The 0 is the initial value of the accumulator(sum).
   const revenue = mockMeals.reduce((sum, meal) => sum + meal.price, 0);
 
   return (
@@ -15,7 +17,9 @@ const AdminDashboard = () => {
       <div className="grid gap-4 md:grid-cols-3">
         {[
           ["Orders", mockOrders.length],
+          //.length counts the number of meals.
           ["Menu items", mockMeals.length],
+          //It formats a number to two decimal places.E.g 25 become 25.00
           ["Revenue", `$${revenue.toFixed(2)}`],
         ].map(([label, value]) => (
           <div

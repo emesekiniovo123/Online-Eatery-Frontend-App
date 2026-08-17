@@ -3,8 +3,11 @@ import { mockOrders } from "../utils/mockData";
 import { formatCurrency } from "../utils/formatCurrency";
 
 const AdminOrders = () => {
+  //orders: Contains the current list of orders.
+  //setOrders: Updates the orders state.
   const [orders, setOrders] = useState(mockOrders);
 
+  //This tells React that we are going to update the orders state.
   const handleStatusChange = (orderId) => {
     setOrders((current) =>
       current.map((order) =>

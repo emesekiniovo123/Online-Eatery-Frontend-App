@@ -14,7 +14,9 @@ export const CATEGORIES = [
   'Soups',
   'Sides',
 ];
-
+//Uppercase naming meaning  in JS :
+//It tells another developer:
+//"This value is intended to remain fixed
 // Order statuses
 export const ORDER_STATUS = {
   PENDING: 'pending',
@@ -35,7 +37,7 @@ export const ORDER_STATUS_CONFIG = {
   [ORDER_STATUS.CANCELLED]: { label: 'Cancelled', color: 'danger' },
 };
 
-// Pagination
+// Pagination :This defines the default number of items to display per page.
 export const DEFAULT_PAGE_SIZE = 12;
 
 // Local storage keys

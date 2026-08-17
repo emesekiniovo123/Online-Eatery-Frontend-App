@@ -14,6 +14,9 @@ const About = () => {
           ['15 min', 'Average prep'],
           ['4.9/5', 'Customer rating'],
         ].map(([value, label]) => (
+          
+          //The key helps React identify each element efficiently when the list changes.
+          //  In this case, the labels are unique, so I use them as the keys.
           <div key={label} className="rounded-2xl bg-dark-900 p-5 text-white">
             <p className="text-2xl font-semibold">{value}</p>
             <p className="text-sm text-dark-300">{label}</p>
