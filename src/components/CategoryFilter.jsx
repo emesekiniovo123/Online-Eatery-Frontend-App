@@ -15,8 +15,8 @@ const CategoryFilter = ({ options, selected, onSelect }) => {
       // in the options array and creates one button for each category." */}
       {options.map((option) => {
 
-        {/* //"This checks whether the current category is the selected one."
-        const isActive = option === selected; */}
+        // {/* //"This checks whether the current category is the selected one."}
+        const isActive = option === selected; 
         return (
           <button
           //The key prop gives each button a unique identity.
