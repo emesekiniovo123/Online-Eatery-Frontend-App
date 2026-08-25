@@ -4,7 +4,7 @@
    ONLINE EATERY — DESIGN SYSTEM
    ======================================== */
 
-@theme {
+@theme{
   /* ---- Color Palette ---- */
   --color-primary-50: #FFF8EB;
   --color-primary-100: #FFECC4;
@@ -89,7 +89,7 @@ html {
 body {
   font-family: var(--font-body);
   color: var(--color-dark-800);
-  background-color: var(--color-cream);
+  background-color: var(--color-skyblue);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

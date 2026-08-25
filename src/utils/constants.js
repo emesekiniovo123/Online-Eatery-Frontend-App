@@ -14,25 +14,21 @@ export const CATEGORIES = [
   'Soups',
   'Sides',
 ];
-//Uppercase naming meaning  in JS :
-//It tells another developer:
-//"This value is intended to remain fixed
-// Order statuses
+
+// Order statuses follow the verified backend contract.
 export const ORDER_STATUS = {
-  PENDING: 'pending',
-  CONFIRMED: 'confirmed',
-  PREPARING: 'preparing',
-  READY: 'ready',
-  DELIVERED: 'delivered',
-  CANCELLED: 'cancelled',
+  PENDING: 'Pending',
+  PREPARING: 'Preparing',
+  OUT_FOR_DELIVERY: 'Out for Delivery',
+  DELIVERED: 'Delivered',
+  CANCELLED: 'Cancelled',
 };
 
-// Order status display config
+// Order status display config for UI mapping.
 export const ORDER_STATUS_CONFIG = {
   [ORDER_STATUS.PENDING]: { label: 'Pending', color: 'warning' },
-  [ORDER_STATUS.CONFIRMED]: { label: 'Confirmed', color: 'info' },
   [ORDER_STATUS.PREPARING]: { label: 'Preparing', color: 'info' },
-  [ORDER_STATUS.READY]: { label: 'Ready', color: 'success' },
+  [ORDER_STATUS.OUT_FOR_DELIVERY]: { label: 'Out for Delivery', color: 'info' },
   [ORDER_STATUS.DELIVERED]: { label: 'Delivered', color: 'success' },
   [ORDER_STATUS.CANCELLED]: { label: 'Cancelled', color: 'danger' },
 };

@@ -1,28 +1,23 @@
 import api from './api';
 
 const authService = {
-  // Register a new user account
   register: async (userData) => {
     const response = await api.post('/auth/signup', userData);
     return response.data;
   },
 
-  // Login user after signup
   login: async (credentials) => {
     const response = await api.post('/auth/login', credentials);
     return response.data;
   },
 
-  // Get current user profile
   getMe: async () => {
-    const response = await api.get('/auth/profile');
+    const response = await api.get('/users/profile');
     return response.data;
   },
 
-  // Logout (client-side only — clear token)
   logout: () => {
-    // If backend has a logout endpoint, call it here
-    // await api.post('/auth/logout');
+    // Backend logout is not provided by the verified contract.
   },
 };
 

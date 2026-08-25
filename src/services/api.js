@@ -6,13 +6,11 @@
 import axios from 'axios';
 import { STORAGE_KEYS } from '../utils/constants';
 
+const baseURL = import.meta.env.DEV ? '/api' : `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api`;
+
 // Create a shared Axios instance
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api`,
-
-  // baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-
-  
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },

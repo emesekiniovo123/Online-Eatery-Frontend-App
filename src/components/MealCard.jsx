@@ -4,7 +4,12 @@ import { formatCurrency } from '../utils/formatCurrency';
 const MealCard = ({ meal, onAddToCart }) => {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-dark-200 bg-white shadow-card transition hover:-translate-y-1 hover:shadow-card-hover">
-      <img src={meal.image} alt={meal.name} className="h-40 w-full object-cover" />
+      <div className="grid grid-cols-2 gap-1">
+        <img src={meal.image} alt={meal.name} className="h-40 w-full object-cover" />
+        {meal.secondaryImage && (
+          <img src={meal.secondaryImage} alt={`${meal.name} alternate view`} className="h-40 w-full object-cover" />
+        )}
+      </div>
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-2">
           <div>

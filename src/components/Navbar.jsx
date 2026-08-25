@@ -1,5 +1,4 @@
-//Link enables client-side navigation without reloading the page
-//NavLink additionally highlights the currently active page.
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -13,14 +12,59 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-
-  //This retrieves authentication information from the AuthContext
-//   It provides:
-// isAuthenticated → checks login status.
-// user → current user's information.
-// logout() → logs the user out.
   const { isAuthenticated, logout, user } = useAuth();
   const { cartCount } = useCart();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const renderNavLinks = (mobile = false) => (
+    <>
+      {navLinks.map((link) => (
+        <NavLink
+          key={link.to}
+          to={link.to}
+          onClick={() => setMobileOpen(false)}
+          className={({ isActive }) =>
+            `text-sm font-medium transition ${isActive ? "text-primary-500" : "text-dark-600 hover:text-primary-500"} ${mobile ? "block rounded-xl px-3 py-2" : ""}`
+          }
+        >
+          {link.label}
+        </NavLink>
+      ))}
+      {isAuthenticated && (
+        <>
+          <NavLink
+            to="/cart"
+            onClick={() => setMobileOpen(false)}
+            className={({ isActive }) =>
+              `text-sm font-medium transition ${isActive ? "text-primary-500" : "text-dark-600 hover:text-primary-500"} ${mobile ? "block rounded-xl px-3 py-2" : ""}`
+            }
+          >
+            Cart
+          </NavLink>
+          <NavLink
+            to="/orders"
+            onClick={() => setMobileOpen(false)}
+            className={({ isActive }) =>
+              `text-sm font-medium transition ${isActive ? "text-primary-500" : "text-dark-600 hover:text-primary-500"} ${mobile ? "block rounded-xl px-3 py-2" : ""}`
+            }
+          >
+            Orders
+          </NavLink>
+          {user?.role === "admin" && (
+            <NavLink
+              to="/admin"
+              onClick={() => setMobileOpen(false)}
+              className={({ isActive }) =>
+                `text-sm font-medium transition ${isActive ? "text-primary-500" : "text-dark-600 hover:text-primary-500"} ${mobile ? "block rounded-xl px-3 py-2" : ""}`
+              }
+            >
+              Admin
+            </NavLink>
+          )}
+        </>
+      )}
+    </>
+  );
 
   return (
     <header className="sticky top-0 z-50 border-b border-dark-200/70 bg-cream/90 backdrop-blur-xl">
@@ -36,17 +80,7 @@ const Navbar = () => {
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `text-sm font-medium transition ${isActive ? "text-primary-500" : "text-dark-600 hover:text-primary-500"}`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          {renderNavLinks(false)}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -61,12 +95,12 @@ const Navbar = () => {
           </Link>
 
           {isAuthenticated ? (
-            <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-2 md:flex">
               <Link
                 to="/profile"
                 className="rounded-full bg-dark-900 px-4 py-2 text-sm font-medium text-white"
               >
-                {user?.name || "Profile"}
+                {user?.fullName || user?.name || "Profile"}
               </Link>
               <button
                 type="button"
@@ -85,7 +119,7 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-2 md:flex">
               <Link
                 to="/login"
                 className="rounded-full border border-dark-200 px-4 py-2 text-sm font-medium text-dark-700"
@@ -100,8 +134,63 @@ const Navbar = () => {
               </Link>
             </div>
           )}
+
+          <button
+            type="button"
+            className="rounded-full border border-dark-200 bg-white px-3 py-2 text-lg md:hidden"
+            onClick={() => setMobileOpen((current) => !current)}
+            aria-label="Toggle mobile menu"
+          >
+            ☰
+          </button>
         </div>
       </div>
+
+      {mobileOpen && (
+        <div className="border-t border-dark-200 bg-white/95 px-4 py-4 md:hidden">
+          <div className="space-y-2">
+            {renderNavLinks(true)}
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileOpen(false)}
+                  className="block rounded-xl bg-dark-900 px-3 py-2 text-sm font-medium text-white"
+                >
+                  {user?.fullName || user?.name || "Profile"}
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setMobileOpen(false);
+                  }}
+                  className="w-full rounded-xl border border-dark-200 px-3 py-2 text-left text-sm font-medium text-dark-700"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="block rounded-xl border border-dark-200 px-3 py-2 text-sm font-medium text-dark-700"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setMobileOpen(false)}
+                  className="block rounded-xl bg-primary-400 px-3 py-2 text-sm font-medium text-dark-900"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 };

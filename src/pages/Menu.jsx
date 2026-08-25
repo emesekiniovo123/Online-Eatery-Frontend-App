@@ -54,8 +54,9 @@ const normalizeMeal = (meal) => ({
   price: Number(meal?.price ?? meal?.amount ?? 0),
   category: meal?.category || meal?.mealType || "General",
   image: resolveImageUrl(meal?.image || meal?.img || meal?.photo),
+  secondaryImage: meal?.secondaryImage ? resolveImageUrl(meal.secondaryImage) : "",
   featured: Boolean(meal?.featured ?? meal?.isFeatured ?? false),
-  available: Boolean(meal?.available ?? true),
+  available: Boolean(meal?.available ?? meal?.isAvailable ?? true),
 });
 
 //This function extracts meal data from the backend response.

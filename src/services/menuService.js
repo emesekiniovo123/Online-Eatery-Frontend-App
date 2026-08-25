@@ -21,13 +21,19 @@ const menuService = {
 
   // Admin: Create a new meal
   createMeal: async (mealData) => {
-    const response = await api.post('/menu', mealData);
+    const config = mealData instanceof FormData
+      ? { headers: { 'Content-Type': 'multipart/form-data' } }
+      : undefined;
+    const response = await api.post('/menu', mealData, config);
     return response.data;
   },
 
   // Admin: Update a meal
   updateMeal: async (id, mealData) => {
-    const response = await api.put(`/menu/${id}`, mealData);
+    const config = mealData instanceof FormData
+      ? { headers: { 'Content-Type': 'multipart/form-data' } }
+      : undefined;
+    const response = await api.put(`/menu/${id}`, mealData, config);
     return response.data;
   },
 

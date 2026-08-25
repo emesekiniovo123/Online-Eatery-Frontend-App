@@ -1,11 +1,72 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { mockMeals } from "../utils/mockData";
 import { useCart } from "../context/CartContext";
+import menuService from "../services/menuService";
 
-const featuredMeals = mockMeals.filter((meal) => meal.featured);
+const extractMeals = (payload) => {
+  const foodsSource =
+    payload?.data?.foods ?? payload?.foods ?? payload?.data ?? payload;
+
+  if (Array.isArray(foodsSource)) {
+    return foodsSource;
+  }
+
+  if (Array.isArray(payload?.meals)) {
+    return payload.meals;
+  }
+
+  return [];
+};
+
+const normalizeMeal = (meal) => ({
+  _id: meal?._id ?? meal?.id ?? meal?.mealId,
+  name: meal?.name || "Untitled meal",
+  description: meal?.description || meal?.details || "No description provided.",
+  price: Number(meal?.price ?? meal?.amount ?? 0),
+  category: meal?.category || meal?.mealType || "General",
+  image:
+    meal?.image ||
+    meal?.img ||
+    meal?.photo ||
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
+  featured: Boolean(meal?.featured ?? meal?.isFeatured ?? false),
+  available: meal?.available ?? true,
+});
 
 const Home = () => {
   const { addToCart } = useCart();
+  const [featuredMeals, setFeaturedMeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadFeaturedMeals = async () => {
+      try {
+        const response = await menuService.getMeals();
+        if (!isMounted) return;
+
+        const meals = extractMeals(response)
+          .map(normalizeMeal)
+          .filter((meal) => meal.available && meal.featured);
+        setFeaturedMeals(meals.slice(0, 4));
+      } catch {
+        if (isMounted) {
+          setFeaturedMeals([]);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadFeaturedMeals();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className="space-y-10">
@@ -73,38 +134,46 @@ const Home = () => {
           </Link>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {featuredMeals.map((meal) => (
-            <div
-              key={meal._id}
-              className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-sm"
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-dark-900">
-                    {meal.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-dark-500">{meal.category}</p>
-                </div>
-              </div>
-
-              <p className="mt-3 text-sm text-dark-600">
-                {meal.description || "A delicious meal prepared fresh for you."}
-              </p>
-
-              <button
-                onClick={() => addToCart(meal)}
-                className="mt-4 rounded-full bg-dark-900 px-4 py-2 text-sm font-semibold text-white"
+        {loading ? (
+          <div className="rounded-[1.5rem] border border-dark-200 bg-white p-6 text-sm text-dark-600">
+            Loading featured meals...
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-3">
+            {featuredMeals.map((meal) => (
+              <div
+                key={meal._id}
+                className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-sm"
               >
-                Add to cart
-              </button>
-            </div>
-          ))}
-        </div>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-lg font-semibold text-dark-900">
+                      {meal.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-dark-500">
+                      {meal.category}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="mt-3 text-sm text-dark-600">
+                  {meal.description ||
+                    "A delicious meal prepared fresh for you."}
+                </p>
+
+                <button
+                  onClick={() => addToCart(meal)}
+                  className="mt-4 rounded-full bg-dark-900 px-4 py-2 text-sm font-semibold text-white"
+                >
+                  Add to cart
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
 };
 
 export default Home;
-

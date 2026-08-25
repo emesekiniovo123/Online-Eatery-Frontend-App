@@ -30,6 +30,7 @@ const normalizeMeal = (meal) => ({
   category: meal?.category || meal?.mealType || "General",
   //Your application looks for the image in three possible properties:
   image: resolveImageUrl(meal?.image || meal?.img || meal?.photo),
+  secondaryImage: resolveImageUrl(meal?.secondaryImage),
 });
 
 const MealDetails = () => {
@@ -101,11 +102,12 @@ const MealDetails = () => {
 
   return (
     <div className="grid gap-8 rounded-[2rem] border border-dark-200 bg-white/80 p-6 shadow-card lg:grid-cols-[0.9fr_1.1fr] lg:p-8">
-      <img
-        src={meal.image}
-        alt={meal.name}
-        className="h-80 w-full rounded-[1.5rem] object-cover"
-      />
+      <div className="grid gap-3 sm:grid-cols-2">
+        <img src={meal.image} alt={meal.name} className="h-80 w-full rounded-[1.5rem] object-cover" />
+        {meal.secondaryImage && (
+          <img src={meal.secondaryImage} alt={`${meal.name} alternate view`} className="h-80 w-full rounded-[1.5rem] object-cover" />
+        )}
+      </div>
       <div className="space-y-5">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">

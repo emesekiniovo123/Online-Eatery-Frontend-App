@@ -4,6 +4,7 @@ const items = [
   { to: '/admin', label: 'Dashboard' },
   { to: '/admin/menu', label: 'Manage Menu' },
   { to: '/admin/orders', label: 'Manage Orders' },
+  { to: '/admin/users', label: 'Users & activity' },
 ];
 
 const Sidebar = () => {

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { notify } from "../components/ToastProvider";
 
 const Profile = () => {
   const { user, updateProfile } = useAuth();
@@ -15,8 +16,7 @@ const Profile = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: user?.name || "",
-      email: user?.email || "",
+      name: user?.fullName || user?.name || "",
       phone: user?.phone || "",
       address: user?.address || "",
     },
@@ -25,9 +25,22 @@ const Profile = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     setMessage("");
+
     try {
-      await updateProfile(data);
+      await updateProfile({
+        fullName: data.name,
+        phone: data.phone,
+        address: data.address,
+      });
       setMessage("Profile updated successfully.");
+      notify("Profile updated successfully.", "success");
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Unable to update profile.";
+      setMessage(message);
+      notify(message, "error");
     } finally {
       setLoading(false);
     }
@@ -54,15 +67,6 @@ const Profile = () => {
           error={errors.name}
           required
           {...register("name", { required: "Name is required" })}
-        />
-        <Input
-          label="Email"
-          name="email"
-          type="email"
-          register={register}
-          error={errors.email}
-          required
-          {...register("email", { required: "Email is required" })}
         />
         <Input
           label="Phone"

@@ -1,10 +1,65 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { mockOrders, mockMeals } from "../utils/mockData";
+import adminService from "../services/adminService";
 
 const AdminDashboard = () => {
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalOrders: 0,
+    pendingOrders: 0,
+    deliveredOrders: 0,
+    cancelledOrders: 0,
+    totalRevenue: 0,
+    revenue: 0,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [mostOrderedFoods, setMostOrderedFoods] = useState([]);
+  const [salesByMonth, setSalesByMonth] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
-  //The 0 is the initial value of the accumulator(sum).
-  const revenue = mockMeals.reduce((sum, meal) => sum + meal.price, 0);
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const dashboard = await adminService.getDashboard();
+        setStats({
+          totalUsers: Number(dashboard.totalUsers ?? 0),
+          totalOrders: Number(dashboard.totalOrders ?? 0),
+          pendingOrders: Number(dashboard.pendingOrders ?? 0),
+          deliveredOrders: Number(dashboard.deliveredOrders ?? 0),
+          cancelledOrders: Number(dashboard.cancelledOrders ?? 0),
+          totalRevenue: Number(
+            dashboard.totalRevenue ?? dashboard.revenue ?? 0,
+          ),
+          revenue: Number(dashboard.revenue ?? dashboard.totalRevenue ?? 0),
+        });
+        setRecentOrders(
+          Array.isArray(dashboard.recentOrders) ? dashboard.recentOrders : [],
+        );
+        setMostOrderedFoods(
+          Array.isArray(dashboard.mostOrderedFoods)
+            ? dashboard.mostOrderedFoods
+            : [],
+        );
+        setSalesByMonth(
+          Array.isArray(dashboard.salesByMonth) ? dashboard.salesByMonth : [],
+        );
+        setReviews(Array.isArray(dashboard.reviews) ? dashboard.reviews : []);
+      } catch (error) {
+        console.error(error);
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Unable to load admin dashboard.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboard();
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -14,23 +69,149 @@ const AdminDashboard = () => {
         </p>
         <h1 className="mt-2 text-2xl font-semibold text-dark-900">Dashboard</h1>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
-        {[
-          ["Orders", mockOrders.length],
-          //.length counts the number of meals.
-          ["Menu items", mockMeals.length],
-          //It formats a number to two decimal places.E.g 25 become 25.00
-          ["Revenue", `$${revenue.toFixed(2)}`],
-        ].map(([label, value]) => (
-          <div
-            key={label}
-            className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card"
-          >
-            <p className="text-sm text-dark-500">{label}</p>
-            <p className="mt-2 text-2xl font-semibold text-dark-900">{value}</p>
+
+      {loading ? (
+        <div className="rounded-[1.5rem] border border-dark-200 bg-white p-5 text-sm text-dark-600">
+          Loading admin dashboard...
+        </div>
+      ) : error ? (
+        <div className="rounded-[1.5rem] border border-danger-200 bg-danger-50 p-5 text-sm text-danger-700">
+          {error}
+        </div>
+      ) : (
+        <>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ["Users", stats.totalUsers],
+              ["Orders", stats.totalOrders],
+              [
+                "Revenue",
+                `$${Number(stats.totalRevenue || stats.revenue || 0).toFixed(2)}`,
+              ],
+            ].map(([label, value]) => (
+              <div
+                key={label}
+                className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card"
+              >
+                <p className="text-sm text-dark-500">{label}</p>
+                <p className="mt-2 text-2xl font-semibold text-dark-900">
+                  {value}
+                </p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {["Pending orders", "Delivered orders", "Cancelled orders"].map(
+              (label, index) => {
+                const values = [
+                  stats.pendingOrders,
+                  stats.deliveredOrders,
+                  stats.cancelledOrders,
+                ];
+                return (
+                  <div
+                    key={label}
+                    className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card"
+                  >
+                    <p className="text-sm text-dark-500">{label}</p>
+                    <p className="mt-2 text-2xl font-semibold text-dark-900">
+                      {values[index]}
+                    </p>
+                  </div>
+                );
+              },
+            )}
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card">
+              <h2 className="text-lg font-semibold text-dark-900">
+                Recent orders
+              </h2>
+              {recentOrders.length === 0 ? (
+                <p className="mt-4 text-sm text-dark-500">No recent orders.</p>
+              ) : (
+                <div className="mt-4 space-y-3">
+                  {recentOrders.map((order) => (
+                    <div
+                      key={order._id}
+                      className="flex items-center justify-between gap-3 text-sm"
+                    >
+                      <span className="text-dark-700">
+                        {order.customer?.fullName || "Customer"}
+                      </span>
+                      <span className="text-dark-500">
+                        {order.orderStatus || "Pending"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            <section className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card">
+              <h2 className="text-lg font-semibold text-dark-900">
+                Most ordered meals
+              </h2>
+              {mostOrderedFoods.length === 0 ? (
+                <p className="mt-4 text-sm text-dark-500">No meal data.</p>
+              ) : (
+                <div className="mt-4 space-y-3">
+                  {mostOrderedFoods.map((item) => (
+                    <div
+                      key={item._id}
+                      className="flex items-center justify-between gap-3 text-sm"
+                    >
+                      <span className="text-dark-700">
+                        {item.food?.[0]?.name || "Meal"}
+                      </span>
+                      <span className="text-dark-500">{item.count || 0}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card">
+              <h2 className="text-lg font-semibold text-dark-900">
+                Monthly sales
+              </h2>
+              {salesByMonth.length === 0 ? (
+                <p className="mt-4 text-sm text-dark-500">No sales data.</p>
+              ) : (
+                <div className="mt-4 space-y-3">
+                  {salesByMonth.map((item) => (
+                    <div
+                      key={item.month || item.label}
+                      className="flex items-center justify-between gap-3 text-sm"
+                    >
+                      <span className="text-dark-700">
+                        {item.label || item.month}
+                      </span>
+                      <span className="text-dark-500">
+                        ${Number(item.revenue || 0).toFixed(2)} ({item.orders || 0} orders)
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            <section className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card">
+              <h2 className="text-lg font-semibold text-dark-900">Reviews</h2>
+              <p className="mt-4 text-sm text-dark-500">
+                {Array.isArray(reviews)
+                  ? `${reviews.length} reviews available.`
+                  : `${Number(reviews || 0)} reviews available.`}
+              </p>
+            </section>
+          </div>
+        </>
+      )}
+
       <div className="flex gap-3">
         <Link
           to="/admin/menu"

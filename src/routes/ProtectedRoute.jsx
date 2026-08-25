@@ -15,11 +15,13 @@ const ProtectedRoute = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace
-    //It stores the user's original requested location when they are redirected 
-    // to the login page, so after successful authentication
-    //  the application can return them to that original page.
-     state={{ from: location }} />;
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{ from: location }}
+      />
+    );
   }
 
   return <Outlet />;
