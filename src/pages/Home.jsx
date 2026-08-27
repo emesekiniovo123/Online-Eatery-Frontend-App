@@ -110,7 +110,7 @@ const Home = () => {
             </span>
 
             <div className="space-y-4">
-              <h1 className="max-w-xl text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
+              <h1 className="max-w-xl text-4xl font-semibold leading-tight text-purple-500 sm:text-5xl lg:text-6xl">
                 Crave-worthy meals, served hot and fast.
               </h1>
               <p className="max-w-xl text-base text-white/85 sm:text-lg">
