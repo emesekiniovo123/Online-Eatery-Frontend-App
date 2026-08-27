@@ -90,31 +90,30 @@ const Home = () => {
   const heroMeal = featuredMeals[0];
 
   return (
-    <div
-      className="space-y-12 pb-4"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1600&q=80')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <section className="relative overflow-hidden rounded-[2rem] border border-dark-200 bg-gradient-to-br from-primary-100 via-white to-sage-100 p-6 shadow-card sm:p-8 lg:p-10">
+    <div className="space-y-12 pb-4">
+      <section
+        className="relative overflow-hidden rounded-[2rem] border border-dark-200 p-6 shadow-card sm:p-8 lg:p-10"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.55)), url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1600&q=80')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="absolute -left-20 top-10 h-52 w-52 rounded-full bg-primary-200/50 blur-3xl" />
         <div className="absolute -right-10 bottom-0 h-48 w-48 rounded-full bg-sage-200/60 blur-3xl" />
 
         <div className="relative grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-6">
-            <span className="inline-flex rounded-full border border-primary-300 bg-white/75 px-3 py-1 text-sm font-medium text-primary-600 backdrop-blur-sm">
+            <span className="inline-flex rounded-full border border-white/30 bg-white/10 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">
               Online Eatery • Freshly crafted
             </span>
 
             <div className="space-y-4">
-              <h1 className="max-w-xl text-4xl font-semibold leading-tight text-dark-900 sm:text-5xl lg:text-6xl">
+              <h1 className="max-w-xl text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
                 Crave-worthy meals, served hot and fast.
               </h1>
-              <p className="max-w-xl text-base text-dark-600 sm:text-lg">
+              <p className="max-w-xl text-base text-white/85 sm:text-lg">
                 Discover chef-inspired favorites, enjoy lightning-fast delivery,
                 and build an order you’ll want to repeat.
               </p>
@@ -123,13 +122,13 @@ const Home = () => {
             <div className="flex flex-wrap gap-3">
               <Link
                 to="/menu"
-                className="rounded-full bg-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-purple-700"
+                className="rounded-full bg-dark-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-dark-800"
               >
                 Order now
               </Link>
               <Link
                 to="/about"
-                className="rounded-full border border-green-500 bg-green-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
+                className="rounded-full border border-dark-200 bg-white/80 px-6 py-3 text-sm font-semibold text-dark-700 transition hover:border-primary-300 hover:text-primary-600"
               >
                 Learn more
               </Link>
