@@ -122,7 +122,7 @@ const Home = () => {
             <div className="flex flex-wrap gap-3">
               <Link
                 to="/menu"
-                className="rounded-full bg-dark-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-dark-800"
+                className="rounded-full bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-green-700"
               >
                 Order now
               </Link>
