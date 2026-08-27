@@ -98,14 +98,14 @@ const Navbar = () => {
             <div className="hidden items-center gap-2 md:flex">
               <Link
                 to="/profile"
-                className="rounded-full bg-dark-900 px-4 py-2 text-sm font-medium text-white"
+                className="rounded-full bg-yellow-400 px-4 py-2 text-sm font-medium text-dark-900"
               >
                 {user?.fullName || user?.name || "Profile"}
               </Link>
               <button
                 type="button"
                 onClick={logout}
-                className="rounded-full border border-dark-200 px-4 py-2 text-sm font-medium text-dark-700"
+                className="rounded-full border border-green-500 bg-green-500 px-4 py-2 text-sm font-medium text-white"
               >
                 Logout
               </button>
