@@ -20,7 +20,7 @@ const Footer = () => {
           <div className="mt-3 space-y-2">
             <Link
               to="/menu"
-              className="block-600 px-2 py-1 text-white transition hover:bg-blue-700"
+              className="block text-green-600 transition hover:text-green-700"
             >
               Menu
             </Link>
