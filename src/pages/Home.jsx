@@ -134,7 +134,7 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid items-center gap-3 sm:grid-cols-3">
               {[
                 { value: "1200+", label: "Orders" },
                 { value: "4.9/5", label: "Rating" },
@@ -142,7 +142,11 @@ const Home = () => {
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-2xl border border-white/80 bg-white/70 p-4 shadow-sm backdrop-blur-sm"
+                  className={`rounded-2xl border border-white/80 bg-white/70 p-4 text-center shadow-sm backdrop-blur-sm ${
+                    item.label === "Rating"
+                      ? "sm:justify-self-center sm:w-[90%]"
+                      : ""
+                  }`}
                 >
                   <p className="text-xl font-semibold text-dark-900">
                     {item.value}
