@@ -1,7 +1,7 @@
 const Contact = () => {
   return (
     <div className="space-y-6">
-      <div className="space-y-4 rounded-[2rem] border border-dark-200 bg-white/80 p-8 shadow-card">
+      <div className="mx-auto w-full max-w-4xl space-y-4 rounded-[2rem] border border-dark-200 bg-white/80 p-8 text-center shadow-card">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
           Contact
         </p>
