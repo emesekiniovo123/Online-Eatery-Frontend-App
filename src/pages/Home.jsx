@@ -114,13 +114,13 @@ const Home = () => {
             <div className="flex flex-wrap gap-3">
               <Link
                 to="/menu"
-                className="rounded-full bg-dark-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-dark-800"
+                className="rounded-full bg-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-purple-700"
               >
                 Order now
               </Link>
               <Link
                 to="/about"
-                className="rounded-full border border-dark-200 bg-white/80 px-6 py-3 text-sm font-semibold text-dark-700 transition hover:border-primary-300 hover:text-primary-600"
+                className="rounded-full border border-green-500 bg-green-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
               >
                 Learn more
               </Link>

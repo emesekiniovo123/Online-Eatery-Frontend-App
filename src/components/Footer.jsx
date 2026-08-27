@@ -20,19 +20,19 @@ const Footer = () => {
           <div className="mt-3 space-y-2">
             <Link
               to="/menu"
-              className="block transition hover:text-primary-600"
+              className="block text-green-600 transition hover:text-green-700"
             >
               Menu
             </Link>
             <Link
               to="/about"
-              className="block transition hover:text-primary-600"
+              className="block text-yellow-600 transition hover:text-yellow-700"
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="block transition hover:text-primary-600"
+              className="block text-purple-600 transition hover:text-purple-700"
             >
               Contact
             </Link>
@@ -46,19 +46,19 @@ const Footer = () => {
           <div className="mt-3 space-y-2">
             <Link
               to="/login"
-              className="block transition hover:text-primary-600"
+              className="block text-yellow-600 transition hover:text-yellow-700"
             >
               Login
             </Link>
             <Link
               to="/register"
-              className="block transition hover:text-primary-600"
+              className="block text-purple-600 transition hover:text-purple-700"
             >
               Register
             </Link>
             <Link
               to="/cart"
-              className="block transition hover:text-primary-600"
+              className="block text-green-600 transition hover:text-green-700"
             >
               Cart
             </Link>
