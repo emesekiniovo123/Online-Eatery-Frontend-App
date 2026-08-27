@@ -160,26 +160,26 @@ const Home = () => {
                   <img
                     src={heroMeal.image}
                     alt={heroMeal.name}
-                    className="h-[430px] w-full rounded-[1.5rem] object-cover"
+                    className="h-[260px] w-full rounded-[1.5rem] object-cover sm:h-[300px]"
                   />
-                  <div className="absolute inset-x-8 bottom-8 rounded-[1.5rem] border border-white/70 bg-white/85 p-4 shadow-card backdrop-blur-sm">
+                  <div className="absolute inset-x-8 bottom-7 rounded-[1.25rem] border border-white/70 bg-white/85 p-3 shadow-card backdrop-blur-sm">
                     <div className="flex items-center justify-between gap-3">
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-600">
                           Chef’s pick
                         </p>
-                        <h2 className="mt-1 text-xl font-semibold text-dark-900">
+                        <h2 className="mt-1 text-lg font-semibold text-dark-900">
                           {heroMeal.name}
                         </h2>
                       </div>
-                      <span className="rounded-full bg-primary-100 px-3 py-1 text-sm font-semibold text-primary-700">
+                      <span className="rounded-full bg-primary-100 px-2.5 py-1 text-xs font-semibold text-primary-700">
                         {formatCurrency(heroMeal.price)}
                       </span>
                     </div>
                   </div>
                 </>
               ) : (
-                <div className="flex h-[430px] items-center justify-center rounded-[1.5rem] bg-dark-100 text-dark-600">
+                <div className="flex h-[220px] items-center justify-center rounded-[1.5rem] bg-dark-100 text-sm text-dark-600">
                   Loading featured meal...
                 </div>
               )}
