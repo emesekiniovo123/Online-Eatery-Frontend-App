@@ -1,7 +1,7 @@
 const Contact = () => {
   return (
-    <div className="grid gap-6 rounded-[2rem] border border-dark-200 bg-white/80 p-8 shadow-card lg:grid-cols-[1fr_0.8fr]">
-      <div className="space-y-4">
+    <div className="space-y-6">
+      <div className="space-y-4 rounded-[2rem] border border-dark-200 bg-white/80 p-8 shadow-card">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
           Contact
         </p>
