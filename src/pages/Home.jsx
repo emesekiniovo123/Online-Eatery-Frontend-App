@@ -90,7 +90,16 @@ const Home = () => {
   const heroMeal = featuredMeals[0];
 
   return (
-    <div className="space-y-12 pb-4">
+    <div
+      className="space-y-12 pb-4"
+      style={{
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1600&q=80')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <section className="relative overflow-hidden rounded-[2rem] border border-dark-200 bg-gradient-to-br from-primary-100 via-white to-sage-100 p-6 shadow-card sm:p-8 lg:p-10">
         <div className="absolute -left-20 top-10 h-52 w-52 rounded-full bg-primary-200/50 blur-3xl" />
         <div className="absolute -right-10 bottom-0 h-48 w-48 rounded-full bg-sage-200/60 blur-3xl" />

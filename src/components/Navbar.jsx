@@ -24,7 +24,7 @@ const Navbar = () => {
           to={link.to}
           onClick={() => setMobileOpen(false)}
           className={({ isActive }) =>
-            `text-sm font-medium transition ${isActive ? "text-primary-500" : "text-dark-600 hover:text-primary-500"} ${mobile ? "block rounded-xl px-3 py-2" : ""}`
+            `text-sm font-medium transition ${isActive ? "text-green-600" : "text-dark-600 hover:text-green-600"} ${mobile ? "block rounded-xl px-3 py-2" : ""}`
           }
         >
           {link.label}
