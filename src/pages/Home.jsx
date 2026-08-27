@@ -128,7 +128,7 @@ const Home = () => {
               </Link>
               <Link
                 to="/about"
-                className="rounded-full border border-dark-200 bg-white/80 px-6 py-3 text-sm font-semibold text-dark-700 transition hover:border-primary-300 hover:text-primary-600"
+                className="rounded-full border border-dark-200 bg-yellow/80 px-6 py-3 text-sm font-semibold text--700 transition hover:border-primary-300 hover:text-primary-600"
               >
                 Learn more
               </Link>
