@@ -183,7 +183,7 @@ const Home = () => {
                   </div>
                 </>
               ) : (
-                <div className="flex h-[220px] items-center justify-center rounded-[1.5rem] bg-dark-100 text-sm text-dark-600">
+                <div className="flex h-[88px] items-center justify-center rounded-[1.5rem] bg-dark-100 text-sm text-dark-600">
                   Loading featured meal...
                 </div>
               )}
