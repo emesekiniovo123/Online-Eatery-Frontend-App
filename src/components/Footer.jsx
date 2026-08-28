@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import { FiFacebook, FiInstagram, FiTwitter } from "react-icons/fi";
 import { APP_NAME } from "../utils/constants";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-dark-200/70 bg-[#fffdf9] py-10">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 text-sm text-dark-600 sm:px-6 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
+    <footer className="border-t border-dark-200/70 bg-cream-dark py-10">
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 text-sm text-dark-600 sm:px-6 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
         <div className="max-w-md">
           <p className="text-lg font-semibold text-dark-900">{APP_NAME}</p>
           <p className="mt-2 leading-6 text-dark-600">
@@ -63,6 +64,50 @@ const Footer = () => {
               Cart
             </Link>
           </div>
+        </div>
+      </div>
+
+      <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-4 border-t border-dark-200/70 px-4 pt-5 text-sm text-dark-600 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+        <p>&copy; 2026 {APP_NAME}</p>
+        <div className="flex items-center gap-4">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Facebook"
+            className="text-dark-600 transition hover:text-primary-600"
+          >
+            <FiFacebook aria-hidden="true" size={18} />
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram"
+            className="text-dark-600 transition hover:text-primary-600"
+          >
+            <FiInstagram aria-hidden="true" size={18} />
+          </a>
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Twitter"
+            className="text-dark-600 transition hover:text-primary-600"
+          >
+            <FiTwitter aria-hidden="true" size={18} />
+          </a>
+        </div>
+        <div className="flex gap-4">
+          <a
+            href="/privacy-policy"
+            className="transition hover:text-primary-600"
+          >
+            Privacy Policy
+          </a>
+          <a href="/terms" className="transition hover:text-primary-600">
+            Terms
+          </a>
         </div>
       </div>
     </footer>
