@@ -228,8 +228,9 @@ const Home = () => {
           </div>
           <Link
             to="/menu"
-            className="text-sm font-semibold text-primary-600 transition hover:text-primary-700"
+            className="inline-flex items-center gap-1 rounded-full bg-yellow-400 px-3 py-1.5 text-sm font-semibold text-dark-900 transition hover:bg-yellow-500"
           >
+            <span aria-hidden="true">→</span>
             Explore menu
           </Link>
         </div>
