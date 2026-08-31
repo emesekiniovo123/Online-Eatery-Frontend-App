@@ -81,24 +81,28 @@ const Checkout = () => {
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-      <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-6 shadow-card">
+    <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr] items-start">
+      <div className="flex h-full flex-col rounded-[2rem] border border-dark-200 bg-white/80 p-6 shadow-card">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
           Checkout
         </p>
         <h1 className="mt-2 text-2xl font-semibold text-dark-900">
           Delivery details
         </h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
-          <Input
-            label="Delivery address"
-            name="address"
-            placeholder="No. 8, Masaka, Nasarawa State."
-            register={register}
-            error={errors.address}
-            required
-            {...register("address", { required: "Address is required" })}
-          />
+
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 flex flex-1 flex-col gap-5">
+          <div className="w-full">
+            <Input
+              label="Delivery address"
+              name="address"
+              placeholder="No. 8, Masaka, Nasarawa State."
+              register={register}
+              error={errors.address}
+              required
+              className="w-full"
+              {...register("address", { required: "Address is required" })}
+            />
+          </div>
 
           <div className="space-y-2">
             <p className="text-sm font-medium text-dark-700">Payment method</p>
@@ -109,7 +113,7 @@ const Checkout = () => {
                 return (
                   <label
                     key={method.value}
-                    className={`cursor-pointer rounded-2xl border p-4 transition-all ${
+                    className={`block cursor-pointer rounded-2xl border p-4 transition-all ${
                       isSelected
                         ? "border-primary-400 bg-primary-50 shadow-sm"
                         : "border-dark-200 bg-white/80"
@@ -135,10 +139,13 @@ const Checkout = () => {
             </div>
           </div>
 
-          <Button type="submit" loading={loading} fullWidth>
-            Place order
-          </Button>
+          <div className="mt-auto pt-2">
+            <Button type="submit" loading={loading} fullWidth>
+              Place order
+            </Button>
+          </div>
         </form>
+
         {submitted && (
           <p className="mt-4 text-sm text-sage-600">
             Order placed successfully. Redirecting to your orders...
