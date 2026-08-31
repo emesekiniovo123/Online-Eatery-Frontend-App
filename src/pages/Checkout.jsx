@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import {
-  FaUser,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+import { FaUser, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
@@ -55,7 +50,8 @@ const Checkout = () => {
   });
 
   const selectedPaymentMethod = watch("paymentMethod");
-  const deliveryFee = selectedPaymentMethod === "cash_on_delivery" ? DELIVERY_FEE : 0;
+  const deliveryFee =
+    selectedPaymentMethod === "cash_on_delivery" ? DELIVERY_FEE : 0;
 
   const userName = user?.fullName || user?.name || "Guest";
 
@@ -65,13 +61,26 @@ const Checkout = () => {
       return;
     }
 
+    const deliveryAddress = String(data.address || "").trim();
+    const phone = String(data.phone || "").trim();
+
+    if (!deliveryAddress) {
+      notify("Delivery address is required", "error");
+      return;
+    }
+
+    if (!phone) {
+      notify("Phone number is required", "error");
+      return;
+    }
+
     setLoading(true);
     setSubmitted(false);
 
     try {
       await orderService.createOrder({
-        deliveryAddress: data.address,
-        phone: data.phone,
+        deliveryAddress,
+        phone,
         paymentMethod: data.paymentMethod,
       });
 
@@ -100,7 +109,10 @@ const Checkout = () => {
           Delivery details
         </h1>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 flex flex-1 flex-col gap-5">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-6 flex flex-1 flex-col gap-5"
+        >
           <div className="space-y-4">
             <div className="flex items-center gap-3 text-dark-900">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-500 text-white">
