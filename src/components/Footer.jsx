@@ -75,7 +75,12 @@ const Footer = () => {
             target="_blank"
             rel="noreferrer"
             aria-label="Facebook"
-            className="text-dark-600 transition hover:text-primary-600"
+            className="transition"
+            style={{
+              color: "#1877F2",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#0A5FDB")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#1877F2")}
           >
             <FiFacebook aria-hidden="true" size={18} />
           </a>
@@ -84,7 +89,12 @@ const Footer = () => {
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
-            className="text-dark-600 transition hover:text-primary-600"
+            className="transition"
+            style={{
+              color: "#E4405F",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#D63975")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#E4405F")}
           >
             <FiInstagram aria-hidden="true" size={18} />
           </a>
@@ -93,7 +103,12 @@ const Footer = () => {
             target="_blank"
             rel="noreferrer"
             aria-label="Twitter"
-            className="text-dark-600 transition hover:text-primary-600"
+            className="transition"
+            style={{
+              color: "#1DA1F2",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#1A8CD8")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#1DA1F2")}
           >
             <FiTwitter aria-hidden="true" size={18} />
           </a>
