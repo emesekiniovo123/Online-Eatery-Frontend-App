@@ -10,6 +10,7 @@ import {
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
+import Input from "../components/Input";
 import { notify } from "../components/ToastProvider";
 import { formatCurrency } from "../utils/formatCurrency";
 import orderService from "../services/orderService";
@@ -47,6 +48,7 @@ const Checkout = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      phone: user?.phone || "",
       address: user?.address || "",
       paymentMethod: "cash_on_delivery",
     },
@@ -56,9 +58,6 @@ const Checkout = () => {
   const deliveryFee = selectedPaymentMethod === "cash_on_delivery" ? DELIVERY_FEE : 0;
 
   const userName = user?.fullName || user?.name || "Guest";
-  const userPhone = user?.phone || "No phone number provided";
-  const userEmail = user?.email || "No email provided";
-  const userAddress = user?.address || "No address provided";
 
   const onSubmit = async (data) => {
     if (cartItems.length === 0) {
@@ -72,6 +71,7 @@ const Checkout = () => {
     try {
       await orderService.createOrder({
         deliveryAddress: data.address,
+        phone: data.phone,
         paymentMethod: data.paymentMethod,
       });
 
@@ -109,26 +109,29 @@ const Checkout = () => {
               <span className="text-lg font-semibold">{userName}</span>
             </div>
 
-            <div className="flex items-center gap-3 text-dark-700">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-dark-100 text-dark-600">
-                <FaPhoneAlt className="h-4 w-4" />
-              </span>
-              <span>{userPhone}</span>
-            </div>
+            <Input
+              label="Phone number"
+              name="phone"
+              placeholder="+234 814 327 6154"
+              register={register}
+              error={errors.phone}
+              required
+              {...register("phone", {
+                required: "Phone number is required",
+              })}
+            />
 
-            <div className="flex items-center gap-3 text-dark-700">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-dark-100 text-dark-600">
-                <FaEnvelope className="h-4 w-4" />
-              </span>
-              <span>{userEmail}</span>
-            </div>
-
-            <div className="flex items-center gap-3 text-dark-700">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-dark-100 text-dark-600">
-                <FaMapMarkerAlt className="h-4 w-4" />
-              </span>
-              <span>{userAddress}</span>
-            </div>
+            <Input
+              label="Delivery address"
+              name="address"
+              placeholder="Lagos, Nigeria"
+              register={register}
+              error={errors.address}
+              required
+              {...register("address", {
+                required: "Delivery address is required",
+              })}
+            />
           </div>
 
           <div className="space-y-2 pt-1">
