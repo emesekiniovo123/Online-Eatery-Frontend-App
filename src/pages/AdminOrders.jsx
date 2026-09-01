@@ -80,30 +80,118 @@ const AdminOrders = () => {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="font-semibold text-dark-900">
-                    {order.customerName || order.user?.name || "Customer"}
+                    Order #{order._id?.toString().slice(-8) || "Unknown"}
                   </p>
                   <p className="text-sm text-dark-500">
-                    {order.deliveryAddress ||
-                      order.address ||
-                      "No address provided"}
+                    {order.createdAt
+                      ? new Date(order.createdAt).toLocaleDateString()
+                      : "No date"}
                   </p>
                 </div>
                 <div className="rounded-full bg-info-50 px-3 py-1 text-sm font-semibold text-info-500">
                   {order.orderStatus || order.status || "Pending"}
                 </div>
               </div>
-              <div className="mt-4 flex flex-col gap-3 text-sm text-dark-600 sm:flex-row sm:items-center sm:justify-between">
-                <span>
-                  {formatCurrency(
-                    Number(order.totalAmount ?? order.total ?? 0),
-                  )}
-                </span>
+
+              <div className="mt-4 grid gap-3 text-sm text-dark-600 md:grid-cols-2">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
+                    Customer Email
+                  </p>
+                  <p className="mt-1 font-medium">
+                    {order.email || "Not provided"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
+                    Phone
+                  </p>
+                  <p className="mt-1 font-medium">
+                    {order.phone || "Not provided"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
+                    Delivery Address
+                  </p>
+                  <p className="mt-1 font-medium">
+                    {order.deliveryAddress ||
+                      order.address ||
+                      "No address provided"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
+                    Payment Method
+                  </p>
+                  <p className="mt-1 font-medium">
+                    {order.paymentMethod
+                      ? order.paymentMethod
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (c) => c.toUpperCase())
+                      : "Cash on Delivery"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-3">
+                {Array.isArray(order.items) &&
+                  order.items.map((item) => (
+                    <span
+                      key={`${order._id}-${item._id || item.food?._id}`}
+                      className="rounded-full border border-dark-200 px-3 py-1 text-sm text-dark-600"
+                    >
+                      {item.name || item.food?.name || "Item"} × {item.quantity}
+                    </span>
+                  ))}
+              </div>
+
+              <div className="mt-4 border-t border-dark-100 pt-4">
+                <div className="grid gap-2 text-sm text-dark-600 sm:grid-cols-3">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
+                      Subtotal
+                    </p>
+                    <p className="mt-1 font-semibold text-dark-900">
+                      {formatCurrency(order.subtotal || 0)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
+                      Delivery Fee
+                    </p>
+                    <p className="mt-1 font-semibold text-dark-900">
+                      {formatCurrency(order.deliveryFee || 0)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
+                      Total
+                    </p>
+                    <p className="mt-1 font-semibold text-dark-900">
+                      {formatCurrency(
+                        Number(order.totalAmount ?? order.total ?? 0),
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
+                    Payment Status
+                  </p>
+                  <p className="mt-1 text-sm font-medium">
+                    {order.paymentStatus || "Pending"}
+                  </p>
+                </div>
                 <select
                   value={order.orderStatus || order.status || "Pending"}
                   onChange={(event) =>
                     handleStatusChange(order._id, event.target.value)
                   }
-                  className="rounded-xl border border-dark-200 bg-white px-3 py-2 text-sm"
+                  className="rounded-xl border border-dark-200 bg-white px-3 py-2 text-sm font-medium"
                 >
                   {ORDER_STATUS_OPTIONS.map((status) => (
                     <option key={status} value={status}>

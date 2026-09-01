@@ -16,16 +16,19 @@ const PAYMENT_METHODS = [
     value: "cash_on_delivery",
     title: "Cash on Delivery",
     description: "Pay in cash when your order arrives.",
+    deliveryFee: 5.0,
   },
   {
     value: "stripe",
     title: "Stripe",
     description: "Pay securely online with Stripe.",
+    deliveryFee: 0.0,
   },
   {
     value: "paypal",
     title: "PayPal",
     description: "Use your PayPal account to complete checkout.",
+    deliveryFee: 0.0,
   },
 ];
 
@@ -43,8 +46,8 @@ const Checkout = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      deliveryAddress: user?.address || "",
       phone: user?.phone || "",
-      address: user?.address || "",
       paymentMethod: "cash_on_delivery",
     },
   });
@@ -61,7 +64,7 @@ const Checkout = () => {
       return;
     }
 
-    const deliveryAddress = String(data.address || "").trim();
+    const deliveryAddress = String(data.deliveryAddress || "").trim();
     const phone = String(data.phone || "").trim();
 
     if (!deliveryAddress) {
@@ -78,6 +81,7 @@ const Checkout = () => {
     setSubmitted(false);
 
     try {
+      // Send only the required fields to prevent "unsupported request field" errors
       await orderService.createOrder({
         deliveryAddress,
         phone,
@@ -121,11 +125,18 @@ const Checkout = () => {
               <span className="text-lg font-semibold">{userName}</span>
             </div>
 
+            <div className="flex items-center gap-3 rounded-lg bg-primary-50 p-3 text-dark-700">
+              <span className="flex h-6 w-6 items-center justify-center text-primary-500">
+                <FaEnvelope className="h-4 w-4" />
+              </span>
+              <span className="text-sm font-medium">
+                {user?.email || "No email"}
+              </span>
+            </div>
+
             <Input
-              label="Phone number"
-              name="phone"
+              label="Phone"
               placeholder="+234 814 327 6154"
-              register={register}
               error={errors.phone}
               required
               {...register("phone", {
@@ -135,12 +146,10 @@ const Checkout = () => {
 
             <Input
               label="Delivery address"
-              name="address"
               placeholder="Lagos, Nigeria"
-              register={register}
-              error={errors.address}
+              error={errors.deliveryAddress}
               required
-              {...register("address", {
+              {...register("deliveryAddress", {
                 required: "Delivery address is required",
               })}
             />
@@ -171,6 +180,9 @@ const Checkout = () => {
                     />
                     <p className="font-semibold text-dark-900">
                       {method.title}
+                    </p>
+                    <p className="mt-2 text-xs font-medium text-primary-600">
+                      Delivery fee: {formatCurrency(method.deliveryFee)}
                     </p>
                     <p className="mt-1 text-xs text-dark-500">
                       {method.description}
@@ -207,10 +219,14 @@ const Checkout = () => {
             </div>
           ))}
           <div className="flex items-center justify-between border-t border-white/10 pt-4 text-base font-semibold">
+            <span>Subtotal</span>
+            <span>{formatCurrency(cartTotal)}</span>
+          </div>
+          <div className="flex items-center justify-between text-base font-semibold">
             <span>Delivery</span>
             <span>{formatCurrency(deliveryFee)}</span>
           </div>
-          <div className="flex items-center justify-between border-t border-white/10 pt-4 text-base font-semibold">
+          <div className="flex items-center justify-between border-t border-white/10 pt-4 text-lg font-semibold">
             <span>Total</span>
             <span>{formatCurrency(cartTotal + deliveryFee)}</span>
           </div>
