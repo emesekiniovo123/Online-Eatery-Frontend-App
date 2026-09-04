@@ -3,7 +3,12 @@ import api from './api';
 const orderService = {
   // Create a new order
   createOrder: async (orderData) => {
-    const response = await api.post('/orders', orderData);
+    const { deliveryAddress, phone, paymentMethod } = orderData;
+    const response = await api.post('/orders', {
+      deliveryAddress,
+      phone,
+      paymentMethod,
+    });
     return response.data;
   },
 
