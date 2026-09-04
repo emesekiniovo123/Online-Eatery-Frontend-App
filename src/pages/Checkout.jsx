@@ -87,14 +87,12 @@ const Checkout = () => {
       user?.address ||
       ""
     ).trim();
-    const phone = (String(data.phone || "").trim() || user?.phone || "").trim();
-
     if (!deliveryAddress) {
       notify("Delivery address is required", "error");
       return;
     }
 
-    if (!phone) {
+    if (!user?.phone) {
       notify("Phone number is required", "error");
       return;
     }
@@ -103,10 +101,9 @@ const Checkout = () => {
     setSubmitted(false);
 
     try {
-      // Send only the required fields to prevent "unsupported request field" errors
+      // Phone and identity fields are derived from the authenticated user by the backend.
       await orderService.createOrder({
         deliveryAddress,
-        phone,
         paymentMethod: data.paymentMethod,
       });
 
