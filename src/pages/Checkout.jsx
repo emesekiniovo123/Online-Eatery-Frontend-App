@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { FaUser, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
@@ -43,6 +48,7 @@ const Checkout = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -51,6 +57,17 @@ const Checkout = () => {
       paymentMethod: "cash_on_delivery",
     },
   });
+
+  // Update form when user data loads from auth context
+  useEffect(() => {
+    if (user) {
+      reset({
+        deliveryAddress: user.address || "",
+        phone: user.phone || "",
+        paymentMethod: "cash_on_delivery",
+      });
+    }
+  }, [user, reset]);
 
   const selectedPaymentMethod = watch("paymentMethod");
   const deliveryFee =
@@ -64,8 +81,13 @@ const Checkout = () => {
       return;
     }
 
-    const deliveryAddress = String(data.deliveryAddress || "").trim();
-    const phone = String(data.phone || "").trim();
+    // Use form values, but fall back to user's registered info
+    const deliveryAddress = (
+      String(data.deliveryAddress || "").trim() ||
+      user?.address ||
+      ""
+    ).trim();
+    const phone = (String(data.phone || "").trim() || user?.phone || "").trim();
 
     if (!deliveryAddress) {
       notify("Delivery address is required", "error");
@@ -134,24 +156,56 @@ const Checkout = () => {
               </span>
             </div>
 
-            <Input
-              label="Phone"
-              placeholder="+234 814 327 6154"
-              error={errors.phone}
-              required
-              {...register("phone", {
-                required: "Phone number is required",
-              })}
-            />
+            <div className="rounded-lg bg-blue-50 border border-blue-200 p-3">
+              <div className="flex items-start gap-3">
+                <span className="flex h-6 w-6 items-center justify-center text-blue-500 mt-0.5 flex-shrink-0">
+                  <FaPhoneAlt className="h-3.5 w-3.5" />
+                </span>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+                    Registered Phone
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-blue-900">
+                    {user?.phone || "Not provided"}
+                  </p>
+                  <p className="mt-1 text-xs text-blue-700">
+                    Edit below to change for this order
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <Input
-              label="Delivery address"
-              placeholder="Lagos, Nigeria"
+              label="Phone (optional - uses registered if left empty)"
+              placeholder={user?.phone || "+234 814 327 6154"}
+              error={errors.phone}
+              {...register("phone")}
+            />
+
+            <div className="rounded-lg bg-blue-50 border border-blue-200 p-3">
+              <div className="flex items-start gap-3">
+                <span className="flex h-6 w-6 items-center justify-center text-blue-500 mt-0.5 flex-shrink-0">
+                  <FaMapMarkerAlt className="h-3.5 w-3.5" />
+                </span>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+                    Registered Address
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-blue-900">
+                    {user?.address || "Not provided"}
+                  </p>
+                  <p className="mt-1 text-xs text-blue-700">
+                    Edit below to change for this order
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <Input
+              label="Delivery address (optional - uses registered if left empty)"
+              placeholder={user?.address || "Lagos, Nigeria"}
               error={errors.deliveryAddress}
-              required
-              {...register("deliveryAddress", {
-                required: "Delivery address is required",
-              })}
+              {...register("deliveryAddress")}
             />
           </div>
 
