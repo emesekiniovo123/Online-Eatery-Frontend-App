@@ -5,12 +5,14 @@ const OrderCard = ({ order }) => {
   const orderStatus = order.orderStatus || order.status || "Pending";
 
   return (
-    <article className="rounded-[1.5rem] border border-dark-200 bg-white p-6 shadow-card">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <article className="rounded-[1.5rem] border border-dark-200 bg-white p-6 text-center shadow-card">
+      <div className="flex flex-col items-center gap-4">
         <div>
           <p className="font-semibold text-dark-900">Order #{order._id}</p>
           <p className="text-sm text-dark-500">
-            {order.deliveryAddress || order.address || "No delivery address provided"}
+            {order.deliveryAddress ||
+              order.address ||
+              "No delivery address provided"}
           </p>
         </div>
         <div className="rounded-full bg-primary-100 px-3 py-1 text-sm font-semibold text-primary-600">
@@ -18,7 +20,7 @@ const OrderCard = ({ order }) => {
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 text-sm text-dark-700 md:grid-cols-2">
+      <div className="mt-4 grid justify-items-center gap-3 text-sm text-dark-700 md:grid-cols-2">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-dark-400">
             Email
@@ -47,7 +49,7 @@ const OrderCard = ({ order }) => {
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="mt-4 flex flex-wrap justify-center gap-3">
         {items.map((item) => (
           <span
             key={`${order._id}-${item._id}`}
@@ -58,7 +60,7 @@ const OrderCard = ({ order }) => {
         ))}
       </div>
 
-      <div className="mt-4 flex items-center justify-between text-sm text-dark-600">
+      <div className="mt-4 flex items-center justify-center gap-4 text-sm text-dark-600">
         <span>{new Date(order.createdAt).toLocaleDateString()}</span>
         <span className="font-semibold text-dark-900">
           {formatCurrency(order.total ?? order.totalAmount ?? 0)}
@@ -72,9 +74,14 @@ const OrderCard = ({ order }) => {
           </p>
           <div className="mt-3 space-y-2">
             {order.statusHistory.map((entry, index) => (
-              <div key={`${entry.status}-${entry.changedAt}-${index}`} className="flex justify-between gap-3 text-sm text-dark-600">
+              <div
+                key={`${entry.status}-${entry.changedAt}-${index}`}
+                className="flex justify-center gap-3 text-sm text-dark-600"
+              >
                 <span>{entry.status}</span>
-                <time dateTime={entry.changedAt}>{new Date(entry.changedAt).toLocaleString()}</time>
+                <time dateTime={entry.changedAt}>
+                  {new Date(entry.changedAt).toLocaleString()}
+                </time>
               </div>
             ))}
           </div>

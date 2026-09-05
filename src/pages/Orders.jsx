@@ -26,8 +26,8 @@ const Orders = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-6 shadow-card">
+    <div className="flex flex-col items-center space-y-6">
+      <div className="w-full max-w-4xl rounded-[2rem] border border-dark-200 bg-white/80 p-6 text-center shadow-card">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
           Orders
         </p>
@@ -37,16 +37,16 @@ const Orders = () => {
       </div>
 
       {loading ? (
-        <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-6 text-sm text-dark-600">
+        <div className="w-full max-w-4xl rounded-[2rem] border border-dark-200 bg-white/80 p-6 text-center text-sm text-dark-600">
           Loading your orders...
         </div>
       ) : orders.length === 0 ? (
-        <div className="rounded-[2rem] border border-dashed border-dark-200 bg-white/70 p-6 text-sm text-dark-600">
+        <div className="w-full max-w-4xl rounded-[2rem] border border-dashed border-dark-200 bg-white/70 p-6 text-center text-sm text-dark-600">
           No orders yet. Place an order from the checkout page to see the
           payment, delivery, and order details here.
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="w-full max-w-4xl space-y-4">
           {orders.map((order) => (
             <OrderCard key={order._id} order={order} />
           ))}
