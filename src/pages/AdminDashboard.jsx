@@ -91,7 +91,7 @@ const AdminDashboard = () => {
             ].map(([label, value]) => (
               <div
                 key={label}
-                className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card"
+                className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card"
               >
                 <p className="text-sm text-dark-500">{label}</p>
                 <p className="mt-2 text-2xl font-semibold text-dark-900">
@@ -112,7 +112,7 @@ const AdminDashboard = () => {
                 return (
                   <div
                     key={label}
-                    className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card"
+                    className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card"
                   >
                     <p className="text-sm text-dark-500">{label}</p>
                     <p className="mt-2 text-2xl font-semibold text-dark-900">
@@ -125,7 +125,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <section className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card">
               <h2 className="text-lg font-semibold text-dark-900">
                 Recent orders
               </h2>
@@ -150,7 +150,7 @@ const AdminDashboard = () => {
               )}
             </section>
 
-            <section className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card">
               <h2 className="text-lg font-semibold text-dark-900">
                 Most ordered meals
               </h2>
@@ -175,7 +175,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <section className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card">
               <h2 className="text-lg font-semibold text-dark-900">
                 Monthly sales
               </h2>
@@ -201,7 +201,7 @@ const AdminDashboard = () => {
               )}
             </section>
 
-            <section className="rounded-[1.5rem] border border-dark-200 bg-white p-5 shadow-card">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card">
               <h2 className="text-lg font-semibold text-dark-900">Reviews</h2>
               <p className="mt-4 text-sm text-dark-500">
                 {Array.isArray(reviews)
