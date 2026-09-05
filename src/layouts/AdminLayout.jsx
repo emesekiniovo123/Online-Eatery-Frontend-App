@@ -19,7 +19,7 @@ const AdminLayout = () => {
     <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
       <div className="space-y-4">
         <Sidebar />
-        <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-4 text-center shadow-card">
+        <div className="flex flex-col items-center rounded-[2rem] border border-dark-200 bg-white/80 p-4 text-center shadow-card">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
             Signed in
           </p>
@@ -37,7 +37,7 @@ const AdminLayout = () => {
           <button
             type="button"
             onClick={logout}
-            className="mt-4 rounded-full border border-dark-200 px-4 py-2 text-sm font-semibold text-dark-700"
+            className="mt-4 rounded-full border border-dark-200 bg-green-600 px-4 py-2 text-sm font-semibold text-dark-700"
           >
             Logout
           </button>
