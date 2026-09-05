@@ -27,7 +27,7 @@ const Orders = () => {
 
   return (
     <div className="flex flex-col items-center space-y-6">
-      <div className="w-full max-w-4xl rounded-[2rem] border border-dark-200 bg-white/80 p-6 text-center shadow-card">
+      <div className="w-full max-w-4xl rounded-[2rem] border border-dark-200 bg-white/80 p-6 text-center shadow-card md:w-[60%]">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
           Orders
         </p>
@@ -37,16 +37,16 @@ const Orders = () => {
       </div>
 
       {loading ? (
-        <div className="w-full max-w-4xl rounded-[2rem] border border-dark-200 bg-white/80 p-6 text-center text-sm text-dark-600">
+        <div className="w-full max-w-4xl rounded-[2rem] border border-dark-200 bg-white/80 p-6 text-center text-sm text-dark-600 md:w-[60%]">
           Loading your orders...
         </div>
       ) : orders.length === 0 ? (
-        <div className="w-full max-w-4xl rounded-[2rem] border border-dashed border-dark-200 bg-white/70 p-6 text-center text-sm text-dark-600">
+        <div className="w-full max-w-4xl rounded-[2rem] border border-dashed border-dark-200 bg-white/70 p-6 text-center text-sm text-dark-600 md:w-[60%]">
           No orders yet. Place an order from the checkout page to see the
           payment, delivery, and order details here.
         </div>
       ) : (
-        <div className="w-full max-w-4xl space-y-4">
+        <div className="w-full max-w-4xl space-y-4 md:w-[60%]">
           {orders.map((order) => (
             <OrderCard key={order._id} order={order} />
           ))}
