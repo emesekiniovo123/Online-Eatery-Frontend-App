@@ -22,7 +22,7 @@ const Sidebar = () => {
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
-              `flex rounded-2xl px-4 py-3 text-sm font-medium transition ${isActive ? "bg-primary-400 text-dark-900" : "text-dark-200 hover:bg-white/10 hover:text-white"}`
+              `flex justify-center rounded-2xl px-4 py-3 text-sm font-medium transition ${isActive ? "bg-primary-400 text-dark-900" : "text-dark-200 hover:bg-white/10 hover:text-white"}`
             }
           >
             {item.label}
