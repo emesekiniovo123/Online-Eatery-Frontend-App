@@ -6,14 +6,22 @@ const About = () => {
           About us
         </p>
         <h1 className="text-3xl font-semibold text-dark-900">
-          Serving comfort food with modern convenience.
+          A smarter way to order your favorite meals.
         </h1>
       </div>
       <p className="max-w-3xl text-lg text-dark-600">
-        Online Eatery brings together fresh ingredients, thoughtful preparation,
-        and fast delivery in one polished experience. From quick lunches to
-        family dinners, the platform is designed to make ordering simple and
-        delightful.
+        Online Eatery is a full-stack food ordering platform designed to connect
+        customers with delicious meals through a simple, secure, and convenient
+        digital experience.
+      </p>
+      <p className="max-w-3xl text-lg text-dark-600">
+        Customers can explore menus, manage their carts, place orders, choose
+        flexible payment options, and keep track of their orders from one place.
+        Our goal is to combine great food with reliable technology to make online
+        ordering fast, effortless, and enjoyable.
+      </p>
+      <p className="text-lg font-semibold text-dark-900">
+        Order with confidence. Enjoy every bite.
       </p>
       <div className="grid justify-items-center gap-4 md:grid-cols-3">
         {[
