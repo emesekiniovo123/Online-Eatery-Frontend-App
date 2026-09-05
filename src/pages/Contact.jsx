@@ -1,6 +1,6 @@
 const Contact = () => {
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col items-center space-y-6">
       <div className="w-full max-w-4xl self-center space-y-4 rounded-[2rem] border border-dark-200 bg-white/80 p-8 text-center shadow-card">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
           Contact
@@ -9,8 +9,10 @@ const Contact = () => {
           We’d love to hear from you.
         </h1>
         <p className="text-lg text-dark-600">
-          Reach out for catering requests, large orders, or feedback about our
-          service.
+          Have a question, need help with an order, or want to make a special
+          request? We’re here to help. Reach out to the Online Eatery team for
+          order support, catering inquiries, large orders, feedback, or any
+          questions about our service.
         </p>
       </div>
       <div className="flex justify-center">
