@@ -62,7 +62,7 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto w-[70%] space-y-6 text-center">
       <div className="rounded-[2rem] border border-dark-200 bg-white/80 p-6 shadow-card">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
           Admin
@@ -136,7 +136,7 @@ const AdminDashboard = () => {
                   {recentOrders.map((order) => (
                     <div
                       key={order._id}
-                      className="flex items-center justify-between gap-3 text-sm"
+                      className="flex items-center justify-center gap-3 text-sm"
                     >
                       <span className="text-dark-700">
                         {order.customer?.fullName || "Customer"}
@@ -161,7 +161,7 @@ const AdminDashboard = () => {
                   {mostOrderedFoods.map((item) => (
                     <div
                       key={item._id}
-                      className="flex items-center justify-between gap-3 text-sm"
+                      className="flex items-center justify-center gap-3 text-sm"
                     >
                       <span className="text-dark-700">
                         {item.food?.[0]?.name || "Meal"}
@@ -186,13 +186,14 @@ const AdminDashboard = () => {
                   {salesByMonth.map((item) => (
                     <div
                       key={item.month || item.label}
-                      className="flex items-center justify-between gap-3 text-sm"
+                      className="flex items-center justify-center gap-3 text-sm"
                     >
                       <span className="text-dark-700">
                         {item.label || item.month}
                       </span>
                       <span className="text-dark-500">
-                        ${Number(item.revenue || 0).toFixed(2)} ({item.orders || 0} orders)
+                        ${Number(item.revenue || 0).toFixed(2)} (
+                        {item.orders || 0} orders)
                       </span>
                     </div>
                   ))}
@@ -212,7 +213,7 @@ const AdminDashboard = () => {
         </>
       )}
 
-      <div className="flex gap-3">
+      <div className="flex justify-center gap-3">
         <Link
           to="/admin/menu"
           className="rounded-full bg-primary-400 px-5 py-3 text-sm font-semibold text-dark-900"
