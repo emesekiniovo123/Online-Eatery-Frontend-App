@@ -9,17 +9,19 @@ const About = () => {
           A smarter way to order your favorite meals.
         </h1>
       </div>
-      <p className="mx-center max-w-3xl text-center text-lg text-dark-600">
-        Online Eatery is a full-stack food ordering platform designed to connect
-        customers with delicious meals through a simple, secure, and convenient
-        digital experience.
-      </p>
-      <p className="mx-center max-w-3xl text-center text-lg text-dark-600">
-        Customers can explore menus, manage their carts, place orders, choose
-        flexible payment options, and keep track of their orders from one place.
-        Our goal is to combine great food with reliable technology to make online
-        ordering fast, effortless, and enjoyable.
-      </p>
+      <div className="space-y-3">
+        <p className="mx-auto max-w-3xl text-center text-lg text-dark-600">
+          Online Eatery is a full-stack food ordering platform designed to
+          connect customers with delicious meals through a simple, secure, and
+          convenient digital experience.
+        </p>
+        <p className="mx-auto max-w-3xl text-center text-lg text-dark-600">
+          Customers can explore menus, manage their carts, place orders, choose
+          flexible payment options, and keep track of their orders from one
+          place. Our goal is to combine great food with reliable technology to
+          make online ordering fast, effortless, and enjoyable.
+        </p>
+      </div>
       <p className="text-lg font-semibold text-dark-900">
         Order with confidence. Enjoy every bite.
       </p>
