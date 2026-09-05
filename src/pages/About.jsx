@@ -1,6 +1,6 @@
 const About = () => {
   return (
-    <div className="space-y-6 rounded-[2rem] border border-dark-200 bg-white/80 p-8 shadow-card">
+    <div className="space-y-6 rounded-[2rem] border border-dark-200 bg-white/80 p-8 text-center shadow-card">
       <div className="space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-500">
           About us
