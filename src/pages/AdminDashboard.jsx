@@ -222,7 +222,7 @@ const AdminDashboard = () => {
         </Link>
         <Link
           to="/admin/orders"
-          className="rounded-full border border-dark-200 bg-white px-5 py-3 text-sm font-semibold text-dark-700"
+          className="rounded-full border border-dark-200 bg-green-600 px-5 py-3 text-sm font-semibold text-white hover:bg-yellow-400"
         >
           Manage orders
         </Link>
