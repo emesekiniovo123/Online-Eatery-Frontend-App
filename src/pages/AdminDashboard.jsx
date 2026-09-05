@@ -91,10 +91,10 @@ const AdminDashboard = () => {
             ].map(([label, value]) => (
               <div
                 key={label}
-                className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card"
+                className="rounded-[1.5rem] border border-dark-200 bg-green-600 p-5 text-white shadow-card"
               >
-                <p className="text-sm text-dark-500">{label}</p>
-                <p className="mt-2 text-2xl font-semibold text-dark-900">
+                <p className="text-sm text-white">{label}</p>
+                <p className="mt-2 text-2xl font-semibold text-white">
                   {value}
                 </p>
               </div>
@@ -112,10 +112,10 @@ const AdminDashboard = () => {
                 return (
                   <div
                     key={label}
-                    className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card"
+                    className="rounded-[1.5rem] border border-dark-200 bg-green-600 p-5 text-white shadow-card"
                   >
-                    <p className="text-sm text-dark-500">{label}</p>
-                    <p className="mt-2 text-2xl font-semibold text-dark-900">
+                    <p className="text-sm text-white">{label}</p>
+                    <p className="mt-2 text-2xl font-semibold text-white">
                       {values[index]}
                     </p>
                   </div>
@@ -125,12 +125,12 @@ const AdminDashboard = () => {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <section className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card">
-              <h2 className="text-lg font-semibold text-dark-900">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-green-600 p-5 text-white shadow-card">
+              <h2 className="text-lg font-semibold text-white">
                 Recent orders
               </h2>
               {recentOrders.length === 0 ? (
-                <p className="mt-4 text-sm text-dark-500">No recent orders.</p>
+                <p className="mt-4 text-sm text-white">No recent orders.</p>
               ) : (
                 <div className="mt-4 space-y-3">
                   {recentOrders.map((order) => (
@@ -138,10 +138,10 @@ const AdminDashboard = () => {
                       key={order._id}
                       className="flex items-center justify-center gap-3 text-sm"
                     >
-                      <span className="text-dark-700">
+                      <span className="text-white">
                         {order.customer?.fullName || "Customer"}
                       </span>
-                      <span className="text-dark-500">
+                      <span className="text-white">
                         {order.orderStatus || "Pending"}
                       </span>
                     </div>
@@ -150,12 +150,12 @@ const AdminDashboard = () => {
               )}
             </section>
 
-            <section className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card">
-              <h2 className="text-lg font-semibold text-dark-900">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-green-600 p-5 text-white shadow-card">
+              <h2 className="text-lg font-semibold text-white">
                 Most ordered meals
               </h2>
               {mostOrderedFoods.length === 0 ? (
-                <p className="mt-4 text-sm text-dark-500">No meal data.</p>
+                <p className="mt-4 text-sm text-white">No meal data.</p>
               ) : (
                 <div className="mt-4 space-y-3">
                   {mostOrderedFoods.map((item) => (
@@ -163,10 +163,10 @@ const AdminDashboard = () => {
                       key={item._id}
                       className="flex items-center justify-center gap-3 text-sm"
                     >
-                      <span className="text-dark-700">
+                      <span className="text-white">
                         {item.food?.[0]?.name || "Meal"}
                       </span>
-                      <span className="text-dark-500">{item.count || 0}</span>
+                      <span className="text-white">{item.count || 0}</span>
                     </div>
                   ))}
                 </div>
@@ -175,12 +175,12 @@ const AdminDashboard = () => {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <section className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card">
-              <h2 className="text-lg font-semibold text-dark-900">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-green-600 p-5 text-white shadow-card">
+              <h2 className="text-lg font-semibold text-white">
                 Monthly sales
               </h2>
               {salesByMonth.length === 0 ? (
-                <p className="mt-4 text-sm text-dark-500">No sales data.</p>
+                <p className="mt-4 text-sm text-white">No sales data.</p>
               ) : (
                 <div className="mt-4 space-y-3">
                   {salesByMonth.map((item) => (
@@ -188,10 +188,10 @@ const AdminDashboard = () => {
                       key={item.month || item.label}
                       className="flex items-center justify-center gap-3 text-sm"
                     >
-                      <span className="text-dark-700">
+                      <span className="text-white">
                         {item.label || item.month}
                       </span>
-                      <span className="text-dark-500">
+                      <span className="text-white">
                         ${Number(item.revenue || 0).toFixed(2)} (
                         {item.orders || 0} orders)
                       </span>
@@ -201,9 +201,9 @@ const AdminDashboard = () => {
               )}
             </section>
 
-            <section className="rounded-[1.5rem] border border-dark-200 bg-sage-50 p-5 shadow-card">
-              <h2 className="text-lg font-semibold text-dark-900">Reviews</h2>
-              <p className="mt-4 text-sm text-dark-500">
+            <section className="rounded-[1.5rem] border border-dark-200 bg-green-600 p-5 text-white shadow-card">
+              <h2 className="text-lg font-semibold text-white">Reviews</h2>
+              <p className="mt-4 text-sm text-white">
                 {Array.isArray(reviews)
                   ? `${reviews.length} reviews available.`
                   : `${Number(reviews || 0)} reviews available.`}
